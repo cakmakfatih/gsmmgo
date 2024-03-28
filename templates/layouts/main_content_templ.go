@@ -31,7 +31,7 @@ func MainContent() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</content><div id=\"addRecordModal\" class=\"transition-all fixed h-dvh w-0 right-0 top-0 bg-white z-10 border-r\"></div><div id=\"overlay\" _=\"on click add .hidden to me then remove .w-35p from &lt;div#addRecordModal /&gt; then remove .opacity-100 from me\" class=\"hidden transition-opacity opacity-0 bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</content>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

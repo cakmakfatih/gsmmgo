@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"echochat/internals"
-	components "echochat/templates/components"
 	pages "echochat/templates/pages"
 	"net/http"
 
@@ -29,17 +28,5 @@ func indexHandler(c echo.Context) error {
 }
 
 func panelHandler(c echo.Context) error {
-	sizeClasses := []string{
-		"w-36", "w-52", "w-28", "",
-	}
-	headers := []string{
-		"ID", "URL", "Method", "Method Data",
-	}
-	values := [][]string{}
-
-	for i := 0; i < 5; i++ {
-		values = append(values, []string{"ubqeu79jpsxa48j", "https://1kview.com", "Telegram", "Empty"})
-	}
-
-	return internals.RenderTempl(c, http.StatusOK, pages.Panel(components.Table(sizeClasses, headers, values)))
+	return internals.RenderTempl(c, http.StatusOK, pages.Panel())
 }

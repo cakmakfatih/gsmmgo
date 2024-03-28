@@ -36,7 +36,7 @@ func MainLayout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"description\" content=\"gin templ htmx hyperscript boilerplate\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><link rel=\"stylesheet\" href=\"/assets/styles/index.css\"><script src=\"/assets/scripts/htmx.min.js\"></script><script src=\"https://unpkg.com/hyperscript.org@0.9.12\"></script></head><body class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden bg-gray-50 min-h-0\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"description\" content=\"gin templ htmx hyperscript boilerplate\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><link rel=\"stylesheet\" href=\"/assets/styles/index.css\"><script src=\"/assets/scripts/htmx.min.js\"></script><script src=\"https://unpkg.com/hyperscript.org@0.9.12\"></script></head><body class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

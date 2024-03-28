@@ -1,0 +1,33 @@
+package templates
+
+templ Table(sizeClasses []string, header []string, rows [][]string) {
+    <div class="flex-1 overflow-x-auto min-h-0">
+        <table class="relative w-full text-sm table-auto">
+            <thead class="fixed h-[36px] w-full border-b border-gray-300 bg-gray-100">
+                <tr>
+                    <th class="px-3 py-2 w-0">
+                        <input class="invisible" type="checkbox" disabled />
+                    </th>
+                    for idx, v := range header {
+                        <th class={`px-3 py-2 ` + sizeClasses[idx]}>{v}</th>
+                    }
+                </tr>
+            </thead>
+            <tbody class="divide-solid divide-y">
+                <tr class="h-[35px] invisible"></tr>
+                for _, row := range rows {
+                    <tr>
+                        <td class="px-3 py-2 w-0">
+                            <input type="checkbox" />
+                        </td>
+                        for idx, v := range row {
+                            <td class={`px-3 py-2 ` + sizeClasses[idx]}>
+                                {v}
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

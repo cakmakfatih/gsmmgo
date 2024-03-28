@@ -14,7 +14,8 @@ import (
 var C Config
 
 type Config struct {
-	Pb *hClient
+	PbAdmin *hClient
+	BaseURL string
 }
 
 type hClient struct {
@@ -32,7 +33,6 @@ func (h *hClient) Get(path string) (resp *http.Response, err error) {
 
 func (h *hClient) NewRequest(method string, path string, body io.Reader) (resp *http.Response, err error) {
 	req, err := http.NewRequest(method, fmt.Sprintf("%v%v", h.baseURL, path), body)
-
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,50 @@ func (h *hClient) NewRequest(method string, path string, body io.Reader) (resp *
 	return h.c.Do(req)
 }
 
-func NewHClient(token string, baseURL string) *hClient {
+func PostWithToken(path string, body io.Reader, token string) (resp *http.Response, err error) {
+	req, err := http.NewRequest("POST", fmt.Sprintf("%v%v", C.BaseURL, path), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %v", token))
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	return client.Do(req)
+}
+
+func GetWithToken(path string, token string) (resp *http.Response, err error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%v%v", C.BaseURL, path), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %v", token))
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	return client.Do(req)
+}
+
+func (h *hClient) NewRequestWithToken(method string, path string, body io.Reader, token string) (resp *http.Response,
+	err error) {
+	req, err := http.NewRequest(method, fmt.Sprintf("%v%v", C.BaseURL, path), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %v", token))
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	return client.Do(req)
+}
+
+func newHClient(token string, baseURL string) *hClient {
 	return &hClient{
 		c: &http.Client{
 			Transport: &transport{
@@ -121,6 +164,7 @@ func InitConfig() {
 	}
 
 	C = Config{
-		Pb: NewHClient(token, os.Getenv("PB_URL")),
+		PbAdmin: newHClient(token, os.Getenv("PB_URL")),
+		BaseURL: os.Getenv("PB_URL"),
 	}
 }

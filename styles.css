@@ -54,4 +54,18 @@
     tr {
         @apply text-left divide-solid divide-x w-full;
     }
+
+    .btn {
+        @apply flex items-center justify-center mt-6 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-500 mb-2;
+        svg {
+            @apply hidden;
+        }
+        svg.htmx-request {
+            @apply inline;
+        }
+    }
+
+    .btn:disabled {
+        @apply opacity-30 bg-gray-500;
+    }
 }

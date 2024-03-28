@@ -1,9 +1,12 @@
 package templates
 
-import layouts "echochat/templates/layouts"
+import (
+    layouts "echochat/templates/layouts"
+    components "echochat/templates/components"
+)
 
 templ Home() {
     @layouts.MainLayout("Home") {
-
+        @components.Login()
     }
 }

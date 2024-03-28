@@ -1,5 +1,17 @@
 package templates
 
+import "strings"
+
+func disableBtnsOnHTMXRequest() string {
+	return strings.ReplaceAll(`on every htmx:beforeSend in <button:not(.no-disable)/> 
+        tell it 
+            add [@disabled='true']
+		then
+			on htmx:afterRequest in <button:not(.no-disable)/>
+		tell it
+			wait 500ms then remove [@disabled]`, "\n", "")
+}
+
 templ MainLayout(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -13,7 +25,7 @@ templ MainLayout(title string) {
 			<script src="/assets/scripts/htmx.min.js"></script>
 			<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 		</head>
-		<body class="subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0">
+		<body _={disableBtnsOnHTMXRequest()} class="subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0">
 			{ children... }
 		</body>
 	</html>

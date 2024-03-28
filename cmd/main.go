@@ -30,17 +30,21 @@ func main() {
 
 	e.Use(staticCache)
 	e.Use(middleware.Gzip())
-	e.Use(middleware.CSRF())
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:_csrf",
+	}))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET_TOKEN")))))
 	e.Static("assets", "./assets")
 
 	indexRG := e.Group("/")
+	authRG := e.Group("/auth/")
 	partialsRG := e.Group("/partials/")
 
 	indexController := controllers.NewIndexController(indexRG)
+	authController := controllers.NewAuthController(authRG)
 	partialsController := controllers.NewPartialsController(partialsRG)
 
-	controllers.RegisterControllers([]controllers.Controller{indexController, partialsController})
+	controllers.RegisterControllers([]controllers.Controller{indexController, authController, partialsController})
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%v", os.Getenv("PORT"))))
 }

@@ -1,0 +1,17 @@
+package templates
+
+import "echochat/internals"
+
+func getErrClass(err internals.FormValidationErr) string {
+    errClass := "text-red-500 py-1 px-2 text-sm"
+
+    if err.Message == "" {
+        errClass += " hidden"
+    }
+
+    return errClass
+}
+
+templ ErrorP(err internals.FormValidationErr) {
+    <p class={getErrClass(err)} id={err.ElementID} hx-swap-oob={"outerHTML:#" + err.ElementID}>{err.Message}</p>
+}

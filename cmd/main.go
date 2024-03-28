@@ -5,6 +5,7 @@ import (
 	"echochat/internals"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -12,11 +13,22 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+func staticCache(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if strings.HasPrefix(c.Request().URL.Path, "/assets") {
+			c.Response().Header().Set("Cache-Control", "public, max-age=86399")
+		}
+
+		return next(c)
+	}
+}
+
 func main() {
 	internals.InitConfig()
 
 	e := echo.New()
 
+	e.Use(staticCache)
 	e.Use(middleware.Gzip())
 	e.Use(middleware.CSRF())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET_TOKEN")))))

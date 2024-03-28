@@ -19,7 +19,7 @@ func disableBtnsOnHTMXRequest() string {
 		then
 			on htmx:afterRequest in <button:not(.no-disable)/>
 		tell it
-			wait 500ms then remove [@disabled]`, "\n", "")
+			wait 100ms then remove [@disabled]`, "\n", "")
 }
 
 func MainLayout(title string) templ.Component {

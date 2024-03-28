@@ -3,7 +3,10 @@ package main
 import (
 	"echochat/controllers"
 	"echochat/internals"
+	"echochat/models"
+	"encoding/gob"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 
@@ -29,9 +32,16 @@ func main() {
 	e := echo.New()
 
 	e.Use(staticCache)
+
+	gob.Register(&models.UserSession{})
+
 	e.Use(middleware.Gzip())
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		TokenLookup: "form:_csrf",
+		TokenLookup:    "cookie:_csrf",
+		CookiePath:     "/",
+		CookieSecure:   true,
+		CookieHTTPOnly: true,
+		CookieSameSite: http.SameSiteStrictMode,
 	}))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET_TOKEN")))))
 	e.Static("assets", "./assets")

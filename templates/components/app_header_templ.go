@@ -23,7 +23,7 @@ func AppHeader() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"flex p-4 border-b bg-white cursor-default\"><h1 class=\"text-xl px-2\"><b>&lt;/&gt;</b> gsa</h1></header>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"flex p-2 border-b bg-white cursor-default justify-between items-center\"><h1 class=\"text-xl px-2\"><b>&lt;/&gt;</b> gsa</h1><button type=\"button\" hx-get=\"/auth/sign-out\" hx-swap=\"none\" class=\"text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\">Sign Out\r</button></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

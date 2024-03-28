@@ -44,6 +44,11 @@ type AuthError struct {
 	Message string `json:"message"`
 }
 
+type UserSession struct {
+	CSRF string    `json:"csrf"`
+	User UserModel `json:"user"`
+}
+
 func LoginUser(ul *UserLoginRequest) (UserModel, error) {
 	jsonData, err := json.Marshal(ul)
 	if err != nil {

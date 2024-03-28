@@ -21,8 +21,7 @@ func hyperscriptBtnScript() string {
 
 templ Login() {
     <div class="flex flex-1 items-center justify-center bg-slate-100">
-        <form class="flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]" _="on load set csrf to cookies['_csrf'] then set <input[name='_csrf'] /> @value to csrf">
-            <input type="hidden" name="_csrf" />
+        <form class="flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]">
             <h1 class="pt-2 px-1 text-2xl font-bold">GSA Login</h1>
             <hr class="my-2" />
             <span class="text-gray-500 px-1 pb-4 text-sm">If you don't have an account, you should contact GreatSMM</span>

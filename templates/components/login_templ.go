@@ -42,7 +42,7 @@ func Login() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-1 items-center justify-center bg-slate-100\"><form class=\"flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]\" _=\"on load set csrf to cookies[&#39;_csrf&#39;] then set &lt;input[name=&#39;_csrf&#39;] /&gt; @value to csrf\"><input type=\"hidden\" name=\"_csrf\"><h1 class=\"pt-2 px-1 text-2xl font-bold\">GSA Login</h1><hr class=\"my-2\"><span class=\"text-gray-500 px-1 pb-4 text-sm\">If you don't have an account, you should contact GreatSMM</span> <input name=\"email\" class=\"py-2 px-3 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"email\" placeholder=\"Email\" required>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-1 items-center justify-center bg-slate-100\"><form class=\"flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]\"><h1 class=\"pt-2 px-1 text-2xl font-bold\">GSA Login</h1><hr class=\"my-2\"><span class=\"text-gray-500 px-1 pb-4 text-sm\">If you don't have an account, you should contact GreatSMM</span> <input name=\"email\" class=\"py-2 px-3 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"email\" placeholder=\"Email\" required>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +65,7 @@ func Login() templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(hyperscriptBtnScript())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\login.templ`, Line: 40, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\login.templ`, Line: 39, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {

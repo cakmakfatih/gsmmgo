@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 
+	components "echochat/templates/components"
 	partials "echochat/templates/partials"
 
 	"github.com/labstack/echo/v4"
@@ -75,7 +76,7 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 			return c.NoContent(http.StatusBadRequest)
 		}
 
-		return c.NoContent(http.StatusOK)
+		return internals.RenderTempl(c, http.StatusCreated, components.PageNotification("Successfully added a new provider!"))
 	}
 
 	supportUsername := c.FormValue("supportUsername")
@@ -99,5 +100,5 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	return c.NoContent(http.StatusOK)
+	return internals.RenderTempl(c, http.StatusCreated, components.PageNotification("Successfully added a new provider!"))
 }

@@ -51,30 +51,20 @@ func AddServiceFromProviderForm(provider models.ProviderModel) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></header><h2 class=\"px-2 text-sm\">Add a service to the provider</h2><div class=\"mt-2 p-2 border mb-2 flex flex-row self-stretch items-center\"><input type=\"hidden\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></header><h2 class=\"px-2 text-sm\">Add a service to the provider</h2><div class=\"mt-2 p-2 border mb-2 flex flex-row self-stretch items-center\"><input name=\"provider\" type=\"hidden\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(provider.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 13, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 13, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <input name=\"service_id\" type=\"text\" class=\"p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" placeholder=\"Service ID\"> <input name=\"service_name\" type=\"text\" class=\"p-2 w-36 max-w-36 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" placeholder=\"Service Name\"><div class=\"flex-1\"></div><button type=\"button\" class=\"text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3\">Add</button></div><div class=\"pb-3 pt-1 flex flex-1 flex-col overflow-y-scroll min-h-0 divider-solid divide-y\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		for i := 0; i < 15; i++ {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex service\"><span class=\"p-2 px-4 w-28 max-w-28 mr-2 text-sm font-semibold\">12345</span> <span class=\"p-2 px-4 w-36 max-w-36 text-sm\">servicename</span></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <input name=\"serviceId\" type=\"text\" class=\"p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" placeholder=\"Service ID\"> <input name=\"serviceName\" type=\"text\" class=\"p-2 w-36 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600\" placeholder=\"Service Name\"><div class=\"flex-1\"></div><button type=\"button\" hx-post=\"/partials/providers/services\" class=\"text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3\">Add</button></div><div id=\"addedServicesFromCreatedProvider\" class=\"pb-3 pt-1 flex flex-1 flex-col overflow-y-scroll min-h-0 divider-solid divide-y\"></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

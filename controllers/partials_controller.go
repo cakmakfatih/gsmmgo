@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	partials "echochat/templates/partials"
 
@@ -28,8 +29,9 @@ func NewPartialsController(rg *echo.Group) *PartialsController {
 func (cr *PartialsController) register() {
 	providersRG := cr.rg.Group("providers")
 
-	providersRG.GET("", cr.getProviders, middlewares.AuthGuardMiddleware)
-	providersRG.POST("", cr.createProvider, middlewares.AuthGuardMiddleware)
+	providersRG.GET("", cr.getProviders, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+	providersRG.POST("", cr.createProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+	providersRG.POST("/services", cr.createServiceFromProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
 }
 
 func (cr *PartialsController) getProviders(c echo.Context) error {
@@ -100,4 +102,32 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 	}
 
 	return internals.RenderTempl(c, http.StatusCreated, partials.AddedProviderResponse(addedProvider))
+}
+
+func (cr *PartialsController) createServiceFromProvider(c echo.Context) error {
+	user := c.Get("user").(*models.UserModel)
+
+	providerId := c.FormValue("provider")
+	serviceId := c.FormValue("serviceId")
+	serviceName := c.FormValue("serviceName")
+
+	if providerId == "" || serviceId == "" || serviceName == "" {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	id, err := strconv.Atoi(serviceId)
+
+	if err != nil {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	serviceModel := models.ServiceModel{ServiceID: id, Name: serviceName, Provider: providerId}
+
+	addedService, err := services.ApiService.CreateService(user, serviceModel)
+
+	if err != nil {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	return internals.RenderTempl(c, http.StatusCreated, partials.AddedServiceFromProviderResponse(addedService))
 }

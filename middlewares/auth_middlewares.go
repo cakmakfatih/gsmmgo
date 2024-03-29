@@ -2,10 +2,21 @@ package middlewares
 
 import (
 	"echochat/models"
+	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
+
+func RedirectIfNotAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if c.Get("is_authenticated") == false {
+			return c.Redirect(http.StatusPermanentRedirect, "/")
+		}
+
+		return next(c)
+	}
+}
 
 func AuthGuardMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {

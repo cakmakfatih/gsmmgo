@@ -77,20 +77,34 @@ func (s *apiService) GetProvider(u *models.UserModel, id string) error {
 	return nil
 }
 
-func (s *apiService) CreateService(u *models.UserModel, service models.ServiceModel) error {
+func (s *apiService) CreateService(u *models.UserModel, service models.ServiceModel) (models.ServiceModel, error) {
+	var result models.ServiceModel
 	serviceJSON, err := json.Marshal(service)
 
 	if err != nil {
-		return err
+		return result, err
 	}
 
-	_, err = internals.PostWithToken("/api/collections/services/records", bytes.NewBuffer(serviceJSON), u.Token)
-
+	resp, err := internals.PostWithToken("/api/collections/services/records", bytes.NewBuffer(serviceJSON), u.Token)
 	if err != nil {
-		return err
+		return result, err
 	}
 
-	return nil
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return result, err
+	}
+
+	if err := json.Unmarshal(body, &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+
+		return result, err
+	}
+
+	return result, nil
 }
 
 func (s *apiService) CreateProvider(u *models.UserModel, provider models.ProviderModel) (models.ProviderModel, error) {

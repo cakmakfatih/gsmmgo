@@ -1,0 +1,17 @@
+package templates
+
+import (
+    "echochat/models"
+    components "echochat/templates/components"
+    "fmt"
+)
+
+templ AddedServiceFromProviderResponse(service models.ServiceModel) {
+    @components.PageNotification("Successfully added a new service!")
+    <div hx-swap-oob="afterbegin:#addedServicesFromCreatedProvider">
+        <div class="flex service">
+            <span class="p-2 px-4 w-28 max-w-28 mr-2 text-sm font-semibold">{ fmt.Sprint(service.ServiceID) }</span>
+            <span class="p-2 px-4 w-36 max-w-36 text-sm">{service.Name}</span>
+        </div>
+    </div>
+}

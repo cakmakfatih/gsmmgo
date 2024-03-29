@@ -40,7 +40,7 @@ func AuthGuardMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		c.Set("is_authenticated", true)
-		c.Set("user", user.User)
+		c.Set("user", &user.User)
 
 		return next(c)
 	}

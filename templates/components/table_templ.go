@@ -11,8 +11,9 @@ import "io"
 import "bytes"
 
 import "fmt"
+import "echochat/utils"
 
-func Table(sizeClasses []string, header []string, rows [][]string) templ.Component {
+func Table(tableData utils.TableData) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -29,8 +30,8 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for idx, v := range header {
-			var templ_7745c5c3_Var2 = []any{`px-3 py-2 ` + sizeClasses[idx]}
+		for idx, v := range tableData.Header {
+			var templ_7745c5c3_Var2 = []any{`px-3 py-2 ` + tableData.SizeClasses[idx]}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -55,7 +56,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(v)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 15, Col: 70}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 16, Col: 80}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -70,7 +71,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for i, row := range rows {
+		for i, row := range tableData.Rows {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr class=\"hover:bg-gray-200 active:bg-gray-300 transition-colors cursor-pointer duration-150\"><td class=\"px-3 py-2 w-0\"><label class=\"hidden\" for=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -78,7 +79,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(`checkbox-` + fmt.Sprint(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 24, Col: 82}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 25, Col: 82}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -91,7 +92,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(`checkbox-` + fmt.Sprint(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 25, Col: 66}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 26, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -102,7 +103,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 				return templ_7745c5c3_Err
 			}
 			for idx, v := range row {
-				var templ_7745c5c3_Var7 = []any{`px-3 py-2 ` + sizeClasses[idx]}
+				var templ_7745c5c3_Var7 = []any{`px-3 py-2 ` + tableData.SizeClasses[idx]}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -127,7 +128,7 @@ func Table(sizeClasses []string, header []string, rows [][]string) templ.Compone
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 29, Col: 35}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\table.templ`, Line: 30, Col: 35}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {

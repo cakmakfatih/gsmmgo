@@ -1,0 +1,28 @@
+package utils
+
+import "echochat/models"
+
+type TableData struct {
+	SizeClasses []string
+	Header      []string
+	Rows        [][]string
+}
+
+func ProvidersToTableData(providers []models.ProviderModel) TableData {
+	var result TableData
+
+	result.SizeClasses = []string{"w-8", "w-28", "w-12", "w-12", "w-12"}
+	result.Header = []string{"ID", "URL", "Method", "Method Data", "Alias"}
+
+	for _, p := range providers {
+		result.Rows = append(result.Rows, []string{
+			p.ID,
+			p.URL,
+			p.Method,
+			p.MethodData,
+			p.Alias,
+		})
+	}
+
+	return result
+}

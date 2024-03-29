@@ -4,6 +4,7 @@ import (
 	"echochat/controllers"
 	"echochat/internals"
 	"echochat/models"
+	"echochat/services"
 	"encoding/gob"
 	"fmt"
 	"net/http"
@@ -28,6 +29,7 @@ func staticCache(next echo.HandlerFunc) echo.HandlerFunc {
 
 func main() {
 	internals.InitConfig()
+	services.InitAPI()
 
 	e := echo.New()
 

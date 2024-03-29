@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"echochat/models"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -30,7 +30,7 @@ func signOutHandler(c echo.Context) error {
 	sess, err := session.Get("session", c)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -38,7 +38,7 @@ func signOutHandler(c echo.Context) error {
 	sess.Options.MaxAge = -1
 
 	if err := sess.Save(c.Request(), c.Response().Writer); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -53,18 +53,25 @@ func signInHandler(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if email == "" || password == "" {
+		log.Println("bad request")
 		return c.NoContent(http.StatusBadRequest)
 	}
 
 	user, err := models.LoginUser(&models.UserLoginRequest{Identity: email, Password: password})
 
 	if err != nil {
+		log.Println("login user failed")
+		log.Println(err)
+
 		return c.NoContent(http.StatusUnauthorized)
 	}
 
 	sess, err := session.Get("session", c)
 
 	if err != nil {
+		log.Println("couldn't get session")
+		log.Println(err)
+
 		return c.NoContent(http.StatusUnauthorized)
 	}
 
@@ -80,7 +87,8 @@ func signInHandler(c echo.Context) error {
 	err = sess.Save(c.Request(), c.Response())
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println("err saving session")
+		log.Println(err)
 
 		return c.JSON(http.StatusInternalServerError, err)
 	}

@@ -45,7 +45,7 @@ func main() {
 		CookiePath:     "/",
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
-		CookieSameSite: http.SameSiteStrictMode,
+		CookieSameSite: http.SameSiteLaxMode,
 	}))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET_TOKEN")))))
 	e.Static("assets", "./assets")

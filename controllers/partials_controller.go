@@ -10,7 +10,6 @@ import (
 	"log"
 	"net/http"
 
-	components "echochat/templates/components"
 	partials "echochat/templates/partials"
 
 	"github.com/labstack/echo/v4"
@@ -70,13 +69,13 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 	providerModel.Alias = alias
 
 	if method != "web" {
-		err := services.ApiService.CreateProvider(user, providerModel)
+		addedProvider, err := services.ApiService.CreateProvider(user, providerModel)
 
 		if err != nil {
 			return c.NoContent(http.StatusBadRequest)
 		}
 
-		return internals.RenderTempl(c, http.StatusCreated, components.PageNotification("Successfully added a new provider!"))
+		return internals.RenderTempl(c, http.StatusCreated, partials.AddedProviderResponse(addedProvider))
 	}
 
 	supportUsername := c.FormValue("supportUsername")
@@ -94,11 +93,11 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 
 	providerModel.MethodData = string(methodDataString)
 
-	err = services.ApiService.CreateProvider(user, providerModel)
+	addedProvider, err := services.ApiService.CreateProvider(user, providerModel)
 
 	if err != nil {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	return internals.RenderTempl(c, http.StatusCreated, components.PageNotification("Successfully added a new provider!"))
+	return internals.RenderTempl(c, http.StatusCreated, partials.AddedProviderResponse(addedProvider))
 }

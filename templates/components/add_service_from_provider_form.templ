@@ -1,0 +1,28 @@
+package templates
+
+import "echochat/models"
+
+templ AddServiceFromProviderForm(provider models.ProviderModel) {
+    <div id="addServiceFromProviderForm" hx-swap-oob="innerHTML:#addServiceFromProviderForm" class="flex flex-col flex-1 py-2 px-3 mt-2 mb-2 min-h-0">
+        <header class="px-2 flex justify-between items-center text-green-600">
+            <h1 class="text-xl">Newly Added Provider:</h1>
+            <span target="_blank" href={provider.URL} class="text-sm text-blue-600 hover:underline-offset-1 cursor:pointer">{ provider.URL }</span>
+        </header>
+        <h2 class="px-2 text-sm">Add a service to the provider</h2>
+        <div class="mt-2 p-2 border mb-2 flex flex-row self-stretch items-center">
+            <input type="hidden" value={provider.ID} />
+            <input name="service_id" type="text" class="p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Service ID" />
+            <input name="service_name" type="text" class="p-2 w-36 max-w-36 text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Service Name" />
+            <div class="flex-1"></div>
+            <button type="button" class="text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3">Add</button>
+        </div>
+        <div class="pb-3 pt-1 flex flex-1 flex-col overflow-y-scroll min-h-0 divider-solid divide-y">
+                for i := 0; i < 15; i++ {
+                    <div class="flex service">
+                        <span class="p-2 px-4 w-28 max-w-28 mr-2 text-sm font-semibold">12345</span>
+                        <span class="p-2 px-4 w-36 max-w-36 text-sm">servicename</span>
+                    </div>
+                }
+        </div>
+    </div>
+}

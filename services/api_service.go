@@ -77,20 +77,50 @@ func (s *apiService) GetProvider(u *models.UserModel, id string) error {
 	return nil
 }
 
-func (s *apiService) CreateProvider(u *models.UserModel, provider models.ProviderModel) error {
-	providerJSON, err := json.Marshal(provider)
+func (s *apiService) CreateService(u *models.UserModel, service models.ServiceModel) error {
+	serviceJSON, err := json.Marshal(service)
 
 	if err != nil {
 		return err
 	}
 
-	_, err = internals.PostWithToken("/api/collections/providers/records", bytes.NewBuffer(providerJSON), u.Token)
+	_, err = internals.PostWithToken("/api/collections/services/records", bytes.NewBuffer(serviceJSON), u.Token)
 
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (s *apiService) CreateProvider(u *models.UserModel, provider models.ProviderModel) (models.ProviderModel, error) {
+	var result models.ProviderModel
+	providerJSON, err := json.Marshal(provider)
+
+	if err != nil {
+		return result, err
+	}
+
+	resp, err := internals.PostWithToken("/api/collections/providers/records", bytes.NewBuffer(providerJSON), u.Token)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return result, err
+	}
+
+	if err := json.Unmarshal(body, &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+
+		return result, err
+	}
+
+	return result, nil
 }
 
 func (s *apiService) UpdateProvider(u *models.UserModel, provider models.ProviderModel) error {

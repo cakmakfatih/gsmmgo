@@ -1,0 +1,11 @@
+package templates
+
+import (
+    "echochat/models"
+    components "echochat/templates/components"
+)
+
+templ AddedProviderResponse(provider models.ProviderModel) {
+    @components.PageNotification("Successfully added a new provider!")
+    @components.AddServiceFromProviderForm(provider)
+}

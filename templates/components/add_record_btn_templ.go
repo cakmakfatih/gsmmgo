@@ -23,7 +23,7 @@ func AddRecordBtn() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button _=\"on click add .w-35p to &lt;div#addRecordModal /&gt; then remove .hidden from &lt;div#overlay /&gt; then add .opacity-100 to &lt;div#overlay /&gt;\" type=\"button\" class=\"text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button x-data=\"{ open: false }\" @click=\"open = true\" type=\"button\" class=\"text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

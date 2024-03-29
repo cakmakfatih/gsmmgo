@@ -10,18 +10,6 @@ import "context"
 import "io"
 import "bytes"
 
-import "strings"
-
-func disableBtnsOnHTMXRequest() string {
-	return strings.ReplaceAll(`on every htmx:beforeSend in <button:not(.no-disable)/> 
-        tell it 
-            add [@disabled='true']
-		then
-			on htmx:afterRequest in <button:not(.no-disable)/>
-		tell it
-			wait 100ms then remove [@disabled]`, "\n", "")
-}
-
 func MainLayout(title string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -35,33 +23,20 @@ func MainLayout(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><title>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><style>\r\n\t\t\t[x-cloak] { display: none !important; }\r\n\t\t\t</style><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `layouts\main_layout.templ`, Line: 19, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `layouts\main_layout.templ`, Line: 10, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"description\" content=\"gin templ htmx hyperscript boilerplate\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><link rel=\"stylesheet\" href=\"/assets/styles/index.css\"><script src=\"/assets/scripts/htmx.min.js\"></script><script src=\"https://unpkg.com/hyperscript.org@0.9.12/dist/_hyperscript.min.js\"></script></head><body _=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(disableBtnsOnHTMXRequest())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `layouts\main_layout.templ`, Line: 28, Col: 37}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0\"><div class=\"hidden w-36 w-52 w-12 w-8 w-28 w-56\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"description\" content=\"gin templ htmx hyperscript boilerplate\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><link rel=\"stylesheet\" href=\"/assets/styles/index.css\"><script src=\"/assets/scripts/htmx.min.js\"></script><script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js\"></script></head><body class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0\"><div class=\"hidden w-36 w-52 w-12 w-8 w-28 w-56\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

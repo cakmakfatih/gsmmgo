@@ -12,22 +12,7 @@ import "bytes"
 
 import (
 	"echochat/internals"
-	"strings"
 )
-
-func hyperscriptBtnScript() string {
-	return strings.ReplaceAll(`
-                on keyup from closest <form/>
-                    if event.code == "Enter" then exit end
-
-                    for elt in <input[required]/>
-                        if the elt's value is empty
-                            add [@disabled=true] then exit
-                        end
-                    end
-                remove [@disabled]
-                `, "\n", "")
-}
 
 func Login() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -42,7 +27,7 @@ func Login() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-1 items-center justify-center bg-slate-100\"><form class=\"flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]\"><h1 class=\"pt-2 px-1 text-2xl font-bold\">GSA Login</h1><hr class=\"my-2\"><span class=\"text-gray-500 px-1 pb-4 text-sm\">If you don't have an account, you should contact GreatSMM</span> <input name=\"email\" class=\"py-2 px-3 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"email\" placeholder=\"Email\" required>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-1 items-center justify-center bg-slate-100\"><form x-data=\"{ email: &#39;&#39;, password: &#39;&#39;, form: $el }\" class=\"flex flex-col m-3 p-4 bg-white rounded-md border border-black/[0.12] w-[380px] max-w-[95vw]\"><h1 class=\"pt-2 px-1 text-2xl font-bold\">GSA Login</h1><hr class=\"my-2\"><span class=\"text-gray-500 px-1 pb-4 text-sm\">If you don't have an account, you should contact GreatSMM</span> <input x-model=\"email\" name=\"email\" class=\"py-2 px-3 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"email\" placeholder=\"Email\" required>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +35,7 @@ func Login() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input name=\"password\" class=\"py-2 px-3 mt-2 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"password\" placeholder=\"Password\" required>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input x-model=\"password\" name=\"password\" class=\"py-2 px-3 mt-2 bg-slate-100 border border-black/[0.12] rounded-md focus:outline-none focus:ring focus:border-blue-500\" type=\"password\" placeholder=\"Password\" required>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,20 +43,7 @@ func Login() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-post=\"/auth/sign-in\" hx-indicator=\"#btnSpinner\" hx-swap=\"none\" disabled class=\"btn\" type=\"submit\" _=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(hyperscriptBtnScript())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\login.templ`, Line: 39, Col: 41}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><svg id=\"btnSpinner\" width=\"20\" height=\"20\" fill=\"currentColor\" class=\"mr-2 animate-spin\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z\"></path></svg> <span>Sign In</span></button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button x-cloak hx-post=\"/auth/sign-in\" hx-indicator=\"#btnSpinner\" hx-swap=\"none\" class=\"btn\" type=\"submit\" :disabled=\"!(email &amp;&amp; password)\" @click=\"$nextTick(() =&gt; { form.reset() });\"><svg id=\"btnSpinner\" width=\"20\" height=\"20\" fill=\"currentColor\" class=\"mr-2 animate-spin\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z\"></path></svg> <span>Sign In</span></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

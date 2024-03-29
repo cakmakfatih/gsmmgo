@@ -1,20 +1,19 @@
 package models
 
 type ProviderModel struct {
-	ID         string `json:"id"`
-	Panel      string `json:"panel"`
-	URL        string `json:"url"`
-	Alias      string `json:"alias"`
-	Method     string `json:"method"`
-	MethodData string `json:"method_data"`
+	ID                 string            `json:"id"`
+	Panel              string            `json:"panel"`
+	URL                string            `json:"url"`
+	Alias              string            `json:"alias"`
+	Method             string            `json:"method"`
+	MethodData         map[string]string `json:"method_data"`
+	MethodDataReadable string            `json:"-"`
 }
 
-func (p *ProviderModel) SetMethodDataFromJsonString(methodData map[string]interface{}) {
-	if val, ok := methodData["support_username"]; ok {
-		p.MethodData += val.(string)
-	}
-
-	if val, ok := methodData["support_password"]; ok {
-		p.MethodData = p.MethodData + ":" + val.(string)
+func (p *ProviderModel) SetMethodDataReadableFromJsonString(methodData map[string]interface{}) {
+	if p.Method == "telegram" {
+		p.MethodDataReadable = methodData["telegram_chat_id"].(string)
+	} else if p.Method == "web" {
+		p.MethodDataReadable += methodData["support_username"].(string) + ":" + methodData["support_password"].(string)
 	}
 }

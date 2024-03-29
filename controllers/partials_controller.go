@@ -6,7 +6,6 @@ import (
 	"echochat/models"
 	"echochat/services"
 	"echochat/utils"
-	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
@@ -70,7 +69,7 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 	providerModel.Method = method
 	providerModel.Alias = alias
 
-	if method != "web" {
+	if method == "whatsapp" {
 		addedProvider, err := services.ApiService.CreateProvider(user, providerModel)
 
 		if err != nil {
@@ -80,20 +79,24 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 		return internals.RenderTempl(c, http.StatusCreated, partials.AddedProviderResponse(addedProvider))
 	}
 
-	supportUsername := c.FormValue("supportUsername")
-	supportPassword := c.FormValue("supportPassword")
+	if method == "telegram" {
+		telegramChatId := c.FormValue("telegramChatId")
 
-	if supportUsername == "" || supportPassword == "" {
-		return c.NoContent(http.StatusBadRequest)
+		if telegramChatId == "" {
+			return c.NoContent(http.StatusBadRequest)
+		}
+
+		providerModel.MethodData = map[string]string{"telegram_chat_id": telegramChatId}
+	} else if method == "web" {
+		supportUsername := c.FormValue("supportUsername")
+		supportPassword := c.FormValue("supportPassword")
+
+		if supportUsername == "" || supportPassword == "" {
+			return c.NoContent(http.StatusBadRequest)
+		}
+
+		providerModel.MethodData = map[string]string{"support_username": supportUsername, "support_password": supportPassword}
 	}
-
-	methodDataString, err := json.Marshal(map[string]interface{}{"support_username": supportUsername, "support_password": supportPassword})
-
-	if err != nil {
-		return c.NoContent(http.StatusBadRequest)
-	}
-
-	providerModel.MethodData = string(methodDataString)
 
 	addedProvider, err := services.ApiService.CreateProvider(user, providerModel)
 

@@ -41,9 +41,8 @@ func main() {
 	e.Use(middleware.Gzip())
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup:    "cookie:_csrf",
-		CookieDomain:   os.Getenv("COOKIE_DOMAIN"),
 		CookiePath:     "/",
-		CookieSecure:   true,
+		CookieSecure:   false,
 		CookieHTTPOnly: true,
 		CookieSameSite: http.SameSiteLaxMode,
 	}))

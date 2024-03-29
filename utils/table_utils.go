@@ -19,7 +19,7 @@ func ProvidersToTableData(providers []models.ProviderModel) TableData {
 			p.ID,
 			p.URL,
 			p.Method,
-			p.MethodData,
+			p.MethodDataReadable,
 			p.Alias,
 		})
 	}

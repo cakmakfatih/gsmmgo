@@ -59,12 +59,12 @@ func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, 
 			Method: item["method"].(string),
 		}
 
-		if val, ok := item["alias"].(string); ok {
-			provider.Alias = val
+		if val, ok := item["method_data"].(map[string]interface{}); ok {
+			provider.SetMethodDataReadableFromJsonString(val)
 		}
 
-		if val, ok := item["method_data"].(map[string]interface{}); ok {
-			provider.SetMethodDataFromJsonString(val)
+		if val, ok := item["alias"].(string); ok {
+			provider.Alias = val
 		}
 
 		providers = append(providers, provider)
@@ -129,7 +129,7 @@ func (s *apiService) CreateProvider(u *models.UserModel, provider models.Provide
 	}
 
 	if err := json.Unmarshal(body, &result); err != nil {
-		fmt.Println("Error parsing JSON:", err)
+		fmt.Println("Error parsing JSON:", err.Error())
 
 		return result, err
 	}

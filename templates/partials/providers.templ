@@ -1,5 +1,25 @@
 package templates
 
-templ Providers() {
-    <h1>providers</h1>
+import (
+    layouts "echochat/templates/layouts"
+    components "echochat/templates/components"
+	"echochat/utils"
+)
+
+templ Providers(tableData utils.TableData) {
+    @layouts.MainContent() {
+        @components.PanelHeader("Providers", "Search by URL", "/partials") {
+            @components.AddRecordBtn() {
+                <svg class="w-7 h-7 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path strok e-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span>Add a Provider</span>
+            }
+        }
+        <section class="flex flex-col flex-1 bg-white min-h-0">
+            @components.Table(tableData)
+        </section>
+        <div id="addRecordModal" class="transition-all fixed h-dvh w-0 right-0 top-0 bg-white z-10 border-r"></div>
+        <div id="overlay" _="on click add .hidden to me then remove .w-35p from <div#addRecordModal /> then remove .opacity-100 from me" class="hidden transition-opacity opacity-0 bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5"></div>
+    }
 }

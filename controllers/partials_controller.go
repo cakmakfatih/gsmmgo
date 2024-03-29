@@ -1,10 +1,15 @@
 package controllers
 
 import (
+	"echochat/internals"
 	"echochat/middlewares"
 	"echochat/models"
 	"echochat/services"
+	"echochat/utils"
 	"log"
+	"net/http"
+
+	partials "echochat/templates/partials"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,11 +24,13 @@ func NewPartialsController(rg *echo.Group) *PartialsController {
 	}
 }
 
-func (c *PartialsController) register() {
-	c.rg.GET("providers", providersHandler, middlewares.AuthGuardMiddleware)
+func (cr *PartialsController) register() {
+	providersGR := cr.rg.Group("providers")
+
+	providersGR.GET("", cr.getProviders, middlewares.AuthGuardMiddleware)
 }
 
-func providersHandler(c echo.Context) error {
+func (cr *PartialsController) getProviders(c echo.Context) error {
 	user := c.Get("user").(*models.UserModel)
 	providers, err := services.ApiService.GetProviders(user)
 
@@ -33,7 +40,7 @@ func providersHandler(c echo.Context) error {
 		return nil
 	}
 
-	log.Println(providers)
+	tableData := utils.ProvidersToTableData(providers)
 
-	return nil
+	return internals.RenderTempl(c, http.StatusOK, partials.Providers(tableData))
 }

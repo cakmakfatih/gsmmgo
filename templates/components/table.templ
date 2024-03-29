@@ -1,38 +1,48 @@
 package templates
 
-import "fmt"
 import "echochat/utils"
 
 templ Table(tableData utils.TableData) {
-    <div class="flex-1 overflow-x-auto min-h-0">
-        <table class="relative w-full text-sm table-auto">
-            <thead class="fixed h-[36px] w-full border-b border-gray-300 bg-gray-100">
-                <tr>
-                    <th class="px-3 py-2 w-0">
+    <div class="flex flex-col flex-1 overflow-x-auto min-h-0">
+        <div class="table">
+            <div class="theader">
+                <div class="tr font-semibold">
+                    <div class="td">
                         <label class="hidden" for="headerCheckbox"></label>
                         <input id="headerCheckbox" class="invisible" type="checkbox" disabled />
-                    </th>
+                    </div>
                     for idx, v := range tableData.Header {
-                        <th class={`px-3 py-2 ` + tableData.SizeClasses[idx]}>{v}</th>
+                        <div class={`td ` + tableData.SizeClasses[idx]}>
+                            <span>{v}</span>
+                        </div>
                     }
-                </tr>
-            </thead>
-            <tbody class="divide-solid divide-y">
-                <tr class="h-[35px] invisible"></tr>
-                for i, row := range tableData.Rows {
-                    <tr class="hover:bg-gray-200 active:bg-gray-300 transition-colors cursor-pointer duration-150">
-                        <td class="px-3 py-2 w-0">
-                            <label class="hidden" for={`checkbox-` + fmt.Sprint(i)}></label>
-                            <input id={`checkbox-` + fmt.Sprint(i)} type="checkbox" />
-                        </td>
+                </div>
+            </div>
+            <div class="tbody divide-solid divide-y">
+                <tr class="h-9 invisible"></tr>
+                for _, row := range tableData.Rows {
+                    <div class="tr">
+                        <label class="td" for={`checkbox-` + row[0]}>
+                            <input id={`checkbox-` + row[0]} type="checkbox" />
+                        </label>
                         for idx, v := range row {
-                            <td class={`px-3 py-2 ` + tableData.SizeClasses[idx]}>
-                                { v }
-                            </td>
+                            <div class={`td ` + tableData.SizeClasses[idx]}>
+                                if v == "" {
+                                    <span>Empty</span>
+                                } else {
+                                    <span>{v}</span>
+                                }
+                            </div>
                         }
-                    </tr>
+                        <div class="flex-1 filler"></div>
+                            <div class="td">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                    </div>
                 }
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 }

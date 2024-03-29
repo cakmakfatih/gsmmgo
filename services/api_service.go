@@ -71,3 +71,19 @@ func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, 
 
 	return providers, nil
 }
+
+func (s *apiService) GetProvider(u *models.UserModel, id string) error {
+	return nil
+}
+
+func (s *apiService) CreateProvider(u *models.UserModel, provider models.ProviderModel) error {
+	return nil
+}
+
+func (s *apiService) UpdateProvider(u *models.UserModel, provider models.ProviderModel) error {
+	return nil
+}
+
+func (s *apiService) DeleteProvider(u *models.UserModel, id string) error {
+	return nil
+}

@@ -24,9 +24,7 @@
     .w-35p {
         width: 35% !important;
     }
-}
 
-@layer components {
     nav li:first-child {
         @apply mt-2;
     }
@@ -51,8 +49,36 @@
         @apply ml-2;
     }
 
-    tr {
-        @apply text-left divide-solid divide-x w-full;
+    div.table {
+        @apply flex flex-1 flex-col items-stretch text-sm min-h-0;
+    }
+
+    div.td, label.td {
+        @apply flex px-3 py-2 items-center overflow-hidden;
+    }
+
+    div.tr {
+        @apply flex text-left divide-solid divide-x cursor-default;
+    }
+
+    div.tbody > div.tr {
+        @apply hover:bg-gray-200 active:bg-gray-300 duration-100 transition-colors cursor-pointer;
+    }
+
+    div.theader {
+        @apply h-9 border-b border-gray-300 bg-gray-100 flex flex-col items-stretch sticky;
+    }
+
+    div.tbody {
+        @apply flex flex-1 flex-col items-stretch min-h-0 overflow-y-scroll;
+    }
+
+    div.tbody > .tr > .td:last-child {
+        @apply border-none text-gray-300;
+    }
+
+    div.tbody > .tr > .filler {
+        @apply border-none;
     }
 
     .btn {

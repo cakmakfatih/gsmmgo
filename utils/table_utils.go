@@ -11,7 +11,7 @@ type TableData struct {
 func ProvidersToTableData(providers []models.ProviderModel) TableData {
 	var result TableData
 
-	result.SizeClasses = []string{"w-8", "w-28", "w-12", "w-12", "w-12"}
+	result.SizeClasses = []string{"w-56", "w-52", "w-36", "w-56", "w-56"}
 	result.Header = []string{"ID", "URL", "Method", "Method Data", "Alias"}
 
 	for _, p := range providers {

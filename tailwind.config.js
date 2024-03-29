@@ -2,6 +2,9 @@
 
 module.exports = {
     content: [
-      './templates/**/*.{templ,html,js}'
+      './templates/**/*.templ'
     ],
+    corePlugins: {
+      preflight: true,
+    }
   }

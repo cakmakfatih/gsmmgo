@@ -61,7 +61,7 @@ func MainLayout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0\"><div class=\"hidden w-36 w-52 w-12 w-8 w-28 w-56\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

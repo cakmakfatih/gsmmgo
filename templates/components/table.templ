@@ -9,7 +9,7 @@ templ Table(tableData utils.TableData) {
                 <div class="tr font-semibold">
                     <div class="td">
                         <label class="hidden" for="headerCheckbox"></label>
-                        <input id="headerCheckbox" class="invisible" type="checkbox" disabled />
+                        <input id="headerCheckbox" name="headerCheckbox" class="invisible" type="checkbox" disabled />
                     </div>
                     for idx, v := range tableData.Header {
                         <div class={`td ` + tableData.SizeClasses[idx]}>
@@ -23,12 +23,12 @@ templ Table(tableData utils.TableData) {
                 for _, row := range tableData.Rows {
                     <div class="tr">
                         <label class="td" for={`checkbox-` + row[0]}>
-                            <input id={`checkbox-` + row[0]} type="checkbox" />
+                            <input id={`checkbox-` + row[0]} name={`checkbox-` + row[0]} type="checkbox" />
                         </label>
                         for idx, v := range row {
                             <div class={`td ` + tableData.SizeClasses[idx]}>
                                 if v == "" {
-                                    <span>Empty</span>
+                                    <span>-</span>
                                 } else {
                                     <span>{v}</span>
                                 }

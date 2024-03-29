@@ -1,6 +1,7 @@
 package services
 
 import (
+	"bytes"
 	"echochat/entities"
 	"echochat/internals"
 	"echochat/models"
@@ -25,7 +26,7 @@ func InitAPI() {
 
 func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, error) {
 	var providers []models.ProviderModel
-	resp, err := internals.GetWithToken("/api/collections/providers/records", u.Token)
+	resp, err := internals.GetWithToken("/api/collections/providers/records?sort=-created", u.Token)
 
 	if err != nil {
 		return providers, err
@@ -62,8 +63,8 @@ func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, 
 			provider.Alias = val
 		}
 
-		if val, ok := item["method_data"].(string); ok {
-			provider.MethodData = val
+		if val, ok := item["method_data"].(map[string]interface{}); ok {
+			provider.SetMethodDataFromJsonString(val)
 		}
 
 		providers = append(providers, provider)
@@ -77,6 +78,18 @@ func (s *apiService) GetProvider(u *models.UserModel, id string) error {
 }
 
 func (s *apiService) CreateProvider(u *models.UserModel, provider models.ProviderModel) error {
+	providerJSON, err := json.Marshal(provider)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = internals.PostWithToken("/api/collections/providers/records", bytes.NewBuffer(providerJSON), u.Token)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -86,4 +99,52 @@ func (s *apiService) UpdateProvider(u *models.UserModel, provider models.Provide
 
 func (s *apiService) DeleteProvider(u *models.UserModel, id string) error {
 	return nil
+}
+
+func (s *apiService) GetPanels(u *models.UserModel) ([]models.PanelModel, error) {
+	var panels []models.PanelModel
+
+	resp, err := internals.GetWithToken("/api/collections/panels/records", u.Token)
+	if err != nil {
+		return panels, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return panels, errors.New("failed response status")
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return panels, err
+	}
+
+	var panelsResponse entities.PbListResponseEntity
+	if err := json.Unmarshal(body, &panelsResponse); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return panels, err
+	}
+
+	for _, item := range panelsResponse.Items {
+		panel := models.PanelModel{
+			ID:              item["id"].(string),
+			LoginURL:        item["login_url"].(string),
+			SupportUsername: item["support_username"].(string),
+			SupportPassword: item["support_password"].(string),
+		}
+
+		if val, ok := item["telegram_token"].(string); ok {
+			panel.TelegramToken = val
+		}
+
+		if val, ok := item["whatsapp_token"].(string); ok {
+			panel.WhatsAppToken = val
+		}
+
+		panels = append(panels, panel)
+	}
+
+	return panels, nil
 }

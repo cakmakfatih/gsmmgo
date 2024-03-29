@@ -4,9 +4,10 @@ import (
     layouts "echochat/templates/layouts"
     components "echochat/templates/components"
 	"echochat/utils"
+	"echochat/models"
 )
 
-templ Providers(tableData utils.TableData) {
+templ Providers(panels []models.PanelModel, tableData utils.TableData) {
     @layouts.MainContent() {
         @components.PanelHeader("Providers", "Search by URL", "/partials") {
             @components.AddRecordBtn() {
@@ -27,7 +28,7 @@ templ Providers(tableData utils.TableData) {
                 <span class="ml-3">New Provider</span>
             </header>
             <hr />
-            @components.AddProviderForm()
+            @components.AddProviderForm(panels)
         </div>
         <section class="flex flex-col flex-1 bg-white min-h-0">
             @components.Table(tableData)

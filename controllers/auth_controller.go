@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"echochat/models"
+	"echochat/services"
 	"log"
 	"net/http"
 
@@ -53,14 +54,12 @@ func signInHandler(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if email == "" || password == "" {
-		log.Println("bad request")
 		return c.NoContent(http.StatusBadRequest)
 	}
 
 	user, err := models.LoginUser(&models.UserLoginRequest{Identity: email, Password: password})
 
 	if err != nil {
-		log.Println("login user failed")
 		log.Println(err)
 
 		return c.NoContent(http.StatusUnauthorized)
@@ -69,10 +68,15 @@ func signInHandler(c echo.Context) error {
 	sess, err := session.Get("session", c)
 
 	if err != nil {
-		log.Println("couldn't get session")
 		log.Println(err)
 
 		return c.NoContent(http.StatusUnauthorized)
+	}
+
+	panels, err := services.ApiService.GetPanels(&user)
+
+	if err != nil {
+		log.Println(err)
 	}
 
 	sess.Options = &sessions.Options{
@@ -80,14 +84,15 @@ func signInHandler(c echo.Context) error {
 		MaxAge:   86400 * 7,
 		HttpOnly: true,
 	}
+	sess.Values["panels"] = &panels
 	sess.Values["user"] = &models.UserSession{
 		CSRF: c.Get(middleware.DefaultCSRFConfig.ContextKey).(string),
 		User: user,
 	}
+
 	err = sess.Save(c.Request(), c.Response())
 
 	if err != nil {
-		log.Println("err saving session")
 		log.Println(err)
 
 		return c.JSON(http.StatusInternalServerError, err)

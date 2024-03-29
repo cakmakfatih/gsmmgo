@@ -10,7 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-func AddProviderForm() templ.Component {
+import "echochat/models"
+
+func AddProviderForm(panels []models.PanelModel) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +25,43 @@ func AddProviderForm() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/partials/providers\" hx-swap=\"none\" class=\"flex flex-1 flex-col px-6 py-4\" x-data=\"{ method: &#39;telegram&#39;, form: $el }\"><label for=\"inpUrl\" class=\"font-semibold px-3 py-1 text-sm\">URL (*)</label> <input autocomplete=\"off\" id=\"inpUrl\" name=\"url\" class=\"transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"url\" placeholder=\"https://provider.com\" required> <label for=\"method\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Method (*)</label> <select x-model=\"method\" id=\"method\" name=\"method\" class=\"transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\"><option value=\"telegram\">Telegram</option> <option value=\"whatsapp\">WhatsApp</option> <option value=\"web\">Web</option></select><div class=\"flex flex-col mt-2 method\" x-show=\"method === &#39;web&#39;\"><label for=\"supportUsername\" class=\"font-semibold px-3 py-1 text-sm\">Support Username (*)</label> <input :required=\"method === &#39;web&#39; ? &#39;true&#39; : &#39;false&#39;\" autocomplete=\"off\" id=\"supportUsername\" name=\"supportUsername\" class=\"webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"Username\"> <label for=\"supportPassword\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Support Password (*)</label> <input :required=\"method === &#39;web&#39; ? &#39;true&#39; : &#39;false&#39;\" autocomplete=\"off\" id=\"supportPassword\" name=\"supportPassword\" class=\"webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"********\"></div><label for=\"alias\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Alias</label> <input autocomplete=\"off\" id=\"alias\" name=\"alias\" class=\"transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"Provider\"><div class=\"flex-1\"></div><hr class=\"py-2\"><button type=\"submit\" class=\"text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\"><span>Save</span></button></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/partials/providers\" hx-swap=\"none\" class=\"flex flex-1 flex-col px-6 py-4\" x-data=\"{ method: &#39;telegram&#39;, panel: &#39;&#39;, form: $el }\"><label for=\"panel\" class=\"font-semibold px-3 py-1 text-sm\">Panel (*)</label> <select x-model=\"panel\" id=\"panel\" name=\"panel\" class=\"transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, panel := range panels {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(panel.ID)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_provider_form.templ`, Line: 10, Col: 39}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(panel.LoginURL)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_provider_form.templ`, Line: 10, Col: 57}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select> <label for=\"inpUrl\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">URL (*)</label> <input autocomplete=\"off\" id=\"inpUrl\" name=\"url\" class=\"transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"url\" placeholder=\"https://provider.com\" required> <label for=\"method\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Method (*)</label> <select x-model=\"method\" id=\"method\" name=\"method\" class=\"transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\"><option value=\"telegram\">Telegram</option> <option value=\"whatsapp\">WhatsApp</option> <option value=\"web\">Web</option></select><div class=\"flex flex-col mt-2 method\" x-show=\"method === &#39;web&#39;\"><label for=\"supportUsername\" class=\"font-semibold px-3 py-1 text-sm\">Support Username (*)</label> <input :required=\"method === &#39;web&#39;\" autocomplete=\"off\" id=\"supportUsername\" name=\"supportUsername\" class=\"webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"Username\"> <label for=\"supportPassword\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Support Password (*)</label> <input :required=\"method === &#39;web&#39;\" autocomplete=\"off\" id=\"supportPassword\" name=\"supportPassword\" class=\"webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"********\"></div><label for=\"alias\" class=\"mt-2 font-semibold px-3 py-1 text-sm\">Alias</label> <input autocomplete=\"off\" id=\"alias\" name=\"alias\" class=\"transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none\" type=\"text\" placeholder=\"Provider\"><div class=\"flex-1\"></div><hr class=\"py-2\"><button type=\"submit\" class=\"text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\"><span>Save</span></button></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

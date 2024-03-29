@@ -42,6 +42,23 @@ func AuthGuardMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Set("is_authenticated", true)
 		c.Set("user", &user.User)
 
+		panels, exists := sess.Values["panels"].(*[]models.PanelModel)
+
+		if !exists {
+			c.Set("has_panel", false)
+
+			return next(c)
+		}
+
+		if len(*panels) == 0 {
+			c.Set("has_panel", false)
+
+			return next(c)
+		}
+
+		c.Set("has_panel", true)
+		c.Set("panels", panels)
+
 		return next(c)
 	}
 }

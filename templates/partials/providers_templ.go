@@ -11,12 +11,13 @@ import "io"
 import "bytes"
 
 import (
+	"echochat/models"
 	components "echochat/templates/components"
 	layouts "echochat/templates/layouts"
 	"echochat/utils"
 )
 
-func Providers(tableData utils.TableData) templ.Component {
+func Providers(panels []models.PanelModel, tableData utils.TableData) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -73,7 +74,7 @@ func Providers(tableData utils.TableData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.AddProviderForm().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.AddProviderForm(panels).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

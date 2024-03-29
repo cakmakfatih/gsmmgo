@@ -36,6 +36,7 @@ func main() {
 	e.Use(staticCache)
 
 	gob.Register(&models.UserSession{})
+	gob.Register(&[]models.PanelModel{})
 
 	e.Use(middleware.Gzip())
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{

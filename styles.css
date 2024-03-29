@@ -66,7 +66,7 @@
     }
 
     div.theader {
-        @apply h-9 border-b border-gray-300 bg-gray-100 flex flex-col items-stretch sticky;
+        @apply h-9 border-b border-gray-300 bg-gray-100 flex flex-col items-stretch;
     }
 
     div.tbody {
@@ -79,6 +79,10 @@
 
     div.tbody > .tr > .filler {
         @apply border-none;
+    }
+
+    .add-record {
+        @apply overflow-hidden flex flex-col transition-all fixed h-dvh right-0 top-0 bg-white z-10 border-r w-0;
     }
 
     .btn {

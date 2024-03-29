@@ -25,9 +25,10 @@ func NewPartialsController(rg *echo.Group) *PartialsController {
 }
 
 func (cr *PartialsController) register() {
-	providersGR := cr.rg.Group("providers")
+	providersRG := cr.rg.Group("providers")
 
-	providersGR.GET("", cr.getProviders, middlewares.AuthGuardMiddleware)
+	providersRG.GET("", cr.getProviders, middlewares.AuthGuardMiddleware)
+	providersRG.POST("", cr.createProvider, middlewares.AuthGuardMiddleware)
 }
 
 func (cr *PartialsController) getProviders(c echo.Context) error {
@@ -43,4 +44,8 @@ func (cr *PartialsController) getProviders(c echo.Context) error {
 	tableData := utils.ProvidersToTableData(providers)
 
 	return internals.RenderTempl(c, http.StatusOK, partials.Providers(tableData))
+}
+
+func (cr *PartialsController) createProvider(c echo.Context) error {
+	return c.NoContent(http.StatusOK)
 }

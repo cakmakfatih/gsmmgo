@@ -23,7 +23,7 @@ func AddRecordBtn() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button x-data=\"{ open: false }\" @click=\"open = true\" type=\"button\" class=\"text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button @click=\"$dispatch(&#39;toggle-modal&#39;); $dispatch(&#39;toggle-add-record&#39;)\" type=\"button\" class=\"text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -561,7 +561,6 @@ div.tbody > div.tr:active {
 }
 
 div.theader {
-  position: sticky;
   display: flex;
   height: 2.25rem;
   flex-direction: column;
@@ -590,6 +589,24 @@ div.tbody > .tr > .td:last-child {
 
 div.tbody > .tr > .filler {
   border-style: none;
+}
+
+.add-record {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  z-index: 10;
+  display: flex;
+  height: 100dvh;
+  width: 0px;
+  flex-direction: column;
+  overflow: hidden;
+  border-right-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .btn {
@@ -757,10 +774,6 @@ div.tbody > .tr > .filler {
   visibility: hidden;
 }
 
-.fixed {
-  position: fixed;
-}
-
 .absolute {
   position: absolute;
 }
@@ -778,20 +791,12 @@ div.tbody > .tr > .filler {
   left: 0px;
 }
 
-.right-0 {
-  right: 0px;
-}
-
 .start-0 {
   inset-inline-start: 0px;
 }
 
 .top-0 {
   top: 0px;
-}
-
-.z-10 {
-  z-index: 10;
 }
 
 .m-3 {
@@ -1184,29 +1189,13 @@ div.tbody > .tr > .filler {
   -moz-osx-font-smoothing: auto;
 }
 
-.opacity-100 {
-  opacity: 1;
-}
-
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition-opacity {
-  transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

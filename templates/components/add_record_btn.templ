@@ -1,7 +1,7 @@
 package templates
 
 templ AddRecordBtn() {
-    <button x-data="{ open: false }" @click="open = true" type="button" class="text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150">
+    <button @click="$dispatch('toggle-modal'); $dispatch('toggle-add-record')" type="button" class="text-gray-600 bg-white border flex items-center px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150">
         { children... }
     </button>
 }

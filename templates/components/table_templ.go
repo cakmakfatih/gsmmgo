@@ -66,7 +66,7 @@ func Table(tableData utils.TableData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div id=\"mainTableBody\" class=\"tbody divide-solid divide-y\"><tr class=\"h-9 invisible\"></tr>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div id=\"mainTableBody\" class=\"tbody divide-solid divide-y\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

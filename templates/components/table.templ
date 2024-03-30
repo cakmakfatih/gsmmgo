@@ -19,7 +19,6 @@ templ Table(tableData utils.TableData) {
                 </div>
             </div>
             <div id="mainTableBody" class="tbody divide-solid divide-y">
-                <tr class="h-9 invisible"></tr>
                 for _, row := range tableData.Rows {
                     @TableRow(&utils.TableRowData{
                         SizeClasses: tableData.SizeClasses,

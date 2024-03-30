@@ -13,6 +13,7 @@ import "bytes"
 import (
 	"echochat/models"
 	components "echochat/templates/components"
+	"echochat/utils"
 )
 
 func AddedProviderResponse(provider models.ProviderModel) templ.Component {
@@ -33,6 +34,29 @@ func AddedProviderResponse(provider models.ProviderModel) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = components.AddServiceFromProviderForm(provider).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-swap-oob=\"afterbegin:#mainTableBody\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.TableRow(&utils.TableRowData{
+			SizeClasses: []string{
+				"w-56", "w-52", "w-36", "w-56", "w-56",
+			},
+			Values: []string{
+				provider.ID,
+				provider.URL,
+				provider.Method,
+				provider.MethodDataReadable,
+				provider.Alias,
+			},
+		}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

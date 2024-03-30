@@ -2,10 +2,25 @@ package templates
 
 import (
     "echochat/models"
+    "echochat/utils"
     components "echochat/templates/components"
 )
 
 templ AddedProviderResponse(provider models.ProviderModel) {
     @components.PageNotification("Successfully added a new provider!")
     @components.AddServiceFromProviderForm(provider)
+    <div hx-swap-oob="afterbegin:#mainTableBody">
+        @components.TableRow(&utils.TableRowData{
+            SizeClasses: []string{
+                "w-56", "w-52", "w-36", "w-56", "w-56",
+            },
+            Values: []string{
+                provider.ID,
+                provider.URL,
+                provider.Method,
+                provider.MethodDataReadable,
+                provider.Alias,
+            },
+        })
+    </div>
 }

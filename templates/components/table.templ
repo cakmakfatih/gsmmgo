@@ -18,29 +18,13 @@ templ Table(tableData utils.TableData) {
                     }
                 </div>
             </div>
-            <div class="tbody divide-solid divide-y">
+            <div id="mainTableBody" class="tbody divide-solid divide-y">
                 <tr class="h-9 invisible"></tr>
                 for _, row := range tableData.Rows {
-                    <div class="tr">
-                        <label class="td" for={`checkbox-` + row[0]}>
-                            <input id={`checkbox-` + row[0]} name={`checkbox-` + row[0]} type="checkbox" />
-                        </label>
-                        for idx, v := range row {
-                            <div class={`td ` + tableData.SizeClasses[idx]}>
-                                if v == "" {
-                                    <span>-</span>
-                                } else {
-                                    <span>{ v }</span>
-                                }
-                            </div>
-                        }
-                        <div class="flex-1 filler"></div>
-                            <div class="td">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </div>
-                    </div>
+                    @TableRow(&utils.TableRowData{
+                        SizeClasses: tableData.SizeClasses,
+                        Values: row,
+                    })
                 }
             </div>
         </div>

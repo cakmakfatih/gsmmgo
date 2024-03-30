@@ -8,6 +8,11 @@ type TableData struct {
 	Rows        [][]string
 }
 
+type TableRowData struct {
+	SizeClasses []string
+	Values      []string
+}
+
 func ProvidersToTableData(providers []models.ProviderModel) TableData {
 	var result TableData
 

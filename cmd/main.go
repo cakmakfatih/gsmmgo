@@ -1,12 +1,14 @@
 package main
 
 import (
+	"crypto/tls"
 	"echochat/controllers"
 	"echochat/internals"
 	"echochat/models"
 	"echochat/services"
 	"encoding/gob"
-	"fmt"
+	"golang.org/x/crypto/acme"
+	"golang.org/x/crypto/acme/autocert"
 	"net/http"
 	"os"
 	"strings"
@@ -42,7 +44,7 @@ func main() {
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup:    "cookie:_csrf",
 		CookiePath:     "/",
-		CookieSecure:   false,
+		CookieSecure:   true,
 		CookieHTTPOnly: true,
 		CookieSameSite: http.SameSiteLaxMode,
 	}))
@@ -59,5 +61,21 @@ func main() {
 
 	controllers.RegisterControllers([]controllers.Controller{indexController, authController, partialsController})
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%v", os.Getenv("PORT"))))
+	autoTLSManager := autocert.Manager{
+		Prompt: autocert.AcceptTOS,
+		Cache:  autocert.DirCache("/var/www/.cache"),
+	}
+
+	s := http.Server{
+		Addr:    ":443",
+		Handler: e,
+		TLSConfig: &tls.Config{
+			GetCertificate: autoTLSManager.GetCertificate,
+			NextProtos:     []string{acme.ALPNProto},
+		},
+	}
+
+	if err := s.ListenAndServeTLS("./cert/csr.pem", "./cert/key.pem"); err != http.ErrServerClosed {
+		e.Logger.Fatal(err)
+	}
 }

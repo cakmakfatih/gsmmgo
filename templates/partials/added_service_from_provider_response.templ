@@ -11,7 +11,12 @@ templ AddedServiceFromProviderResponse(service models.ServiceModel) {
     <div hx-swap-oob="afterbegin:#addedServicesFromCreatedProvider">
         <div class="flex service">
             <span class="p-2 px-4 w-28 max-w-28 mr-2 text-sm font-semibold">{ fmt.Sprint(service.ServiceID) }</span>
-            <span class="p-2 px-4 w-36 max-w-36 text-sm">{service.Name}</span>
+            <span class="p-2 px-4 w-36 max-w-36 mr-2 text-sm">{service.Name}</span>
+            if service.HasRefill {
+                <span class="p-2 px-4 w-36 max-w-36 text-sm">{fmt.Sprint(service.RefillDuration)} days</span>
+            } else {
+                <span class="p-2 px-4 w-36 max-w-36 text-sm">No Refill</span>
+            }
         </div>
     </div>
 }

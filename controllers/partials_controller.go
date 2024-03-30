@@ -113,6 +113,7 @@ func (cr *PartialsController) createServiceFromProvider(c echo.Context) error {
 	providerId := c.FormValue("provider")
 	serviceId := c.FormValue("serviceId")
 	serviceName := c.FormValue("serviceName")
+	refillDuration := c.FormValue("refillDuration")
 
 	if providerId == "" || serviceId == "" || serviceName == "" {
 		return c.NoContent(http.StatusBadRequest)
@@ -125,6 +126,19 @@ func (cr *PartialsController) createServiceFromProvider(c echo.Context) error {
 	}
 
 	serviceModel := models.ServiceModel{ServiceID: id, Name: serviceName, Provider: providerId}
+
+	if refillDuration == "" {
+		serviceModel.HasRefill = false
+	} else {
+		refillDurationInt, err := strconv.Atoi(refillDuration)
+
+		if err != nil {
+			return c.NoContent(http.StatusBadRequest)
+		}
+
+		serviceModel.HasRefill = true
+		serviceModel.RefillDuration = refillDurationInt
+	}
 
 	addedService, err := services.ApiService.CreateService(user, serviceModel)
 

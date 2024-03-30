@@ -12,7 +12,8 @@ templ AddServiceFromProviderForm(provider models.ProviderModel) {
         <div class="mt-2 p-2 border mb-2 flex flex-row self-stretch items-center">
             <input name="provider" type="hidden" value={provider.ID} />
             <input name="serviceId" type="text" class="p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Service ID" />
-            <input name="serviceName" type="text" class="p-2 w-36 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Service Name" />
+            <input name="serviceName" type="text" class="p-2 w-36 mr-2 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Service Name" />
+            <input name="refillDuration" type="text" class="p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600" placeholder="Refill Duration" />
             <div class="flex-1"></div>
             <button type="button" hx-post="/partials/providers/services" class="text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3">Add</button>
         </div>

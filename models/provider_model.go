@@ -6,7 +6,7 @@ type ProviderModel struct {
 	URL                string            `json:"url"`
 	Alias              string            `json:"alias"`
 	Method             string            `json:"method"`
-	MethodData         map[string]string `json:"method_data"`
+	MethodData         map[string]string `json:"method_data,omitempty"`
 	MethodDataReadable string            `json:"-"`
 }
 

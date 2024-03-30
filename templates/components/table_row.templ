@@ -5,7 +5,7 @@ import "echochat/utils"
 templ TableRow(rowData *utils.TableRowData) {
     <div class="tr">
         <label class="td" for={`checkbox-` + rowData.Values[0]}>
-            <input id={`checkbox-` + rowData.Values[0]} name={`checkbox-` + rowData.Values[0]} type="checkbox" />
+            <input @change={`$dispatch('toggle-mark-for-delete', { id: ` + `'` + rowData.Values[0] + `'` + `, isChecked: $event.target.checked })`} id={`checkbox-` + rowData.Values[0]} name={`checkbox-` + rowData.Values[0]} type="checkbox" />
         </label>
         for idx, v := range rowData.Values {
             <div class={`td ` + rowData.SizeClasses[idx]}>

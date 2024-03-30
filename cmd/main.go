@@ -75,7 +75,7 @@ func main() {
 		},
 	}
 
-	if err := s.ListenAndServeTLS("./cert/csr.pem", "./cert/key.pem"); err != http.ErrServerClosed {
+	if err := s.ListenAndServeTLS("./cert/cert.pem", "./cert/key.pem"); err != http.ErrServerClosed {
 		e.Logger.Fatal(err)
 	}
 }

@@ -547,7 +547,7 @@ div.tbody > div.tr {
   cursor: pointer;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition-duration: 100ms;
 }
 
 div.tbody > div.tr:hover {
@@ -883,10 +883,6 @@ div.tbody > .tr > .filler {
 
 .h-7 {
   height: 1.75rem;
-}
-
-.h-9 {
-  height: 2.25rem;
 }
 
 .h-dvh {

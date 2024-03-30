@@ -69,7 +69,7 @@ func (cr *PartialsController) createProvider(c echo.Context) error {
 	providerModel.Method = method
 	providerModel.Alias = alias
 
-	if method == "whatsapp" {
+	if method == "whatsapp" || method == "manual" {
 		addedProvider, err := services.ApiService.CreateProvider(user, providerModel)
 
 		if err != nil {

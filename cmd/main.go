@@ -7,6 +7,7 @@ import (
 	"echochat/models"
 	"echochat/services"
 	"encoding/gob"
+	"fmt"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 	"net/http"
@@ -61,21 +62,25 @@ func main() {
 
 	controllers.RegisterControllers([]controllers.Controller{indexController, authController, partialsController})
 
-	autoTLSManager := autocert.Manager{
-		Prompt: autocert.AcceptTOS,
-		Cache:  autocert.DirCache("/var/www/.cache"),
-	}
+	if os.Getenv("MODE") == "prod" {
+		autoTLSManager := autocert.Manager{
+			Prompt: autocert.AcceptTOS,
+			Cache:  autocert.DirCache("/var/www/.cache"),
+		}
 
-	s := http.Server{
-		Addr:    ":443",
-		Handler: e,
-		TLSConfig: &tls.Config{
-			GetCertificate: autoTLSManager.GetCertificate,
-			NextProtos:     []string{acme.ALPNProto},
-		},
-	}
+		s := http.Server{
+			Addr:    ":443",
+			Handler: e,
+			TLSConfig: &tls.Config{
+				GetCertificate: autoTLSManager.GetCertificate,
+				NextProtos:     []string{acme.ALPNProto},
+			},
+		}
 
-	if err := s.ListenAndServeTLS("./cert/cert.pem", "./cert/key.pem"); err != http.ErrServerClosed {
-		e.Logger.Fatal(err)
+		if err := s.ListenAndServeTLS("./cert/cert.pem", "./cert/key.pem"); err != http.ErrServerClosed {
+			e.Logger.Fatal(err)
+		}
+	} else {
+		e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%v", os.Getenv("PORT"))))
 	}
 }

@@ -26,7 +26,7 @@ func InitAPI() {
 
 func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, error) {
 	var providers []models.ProviderModel
-	resp, err := internals.GetWithToken("/api/collections/providers/records?sort=-created&max=2000", u.Token)
+	resp, err := internals.GetWithToken("/api/collections/providers/records?sort=-created&max=2000&perPage=2000", u.Token)
 
 	if err != nil {
 		return providers, err
@@ -75,7 +75,7 @@ func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, 
 
 func (s *apiService) GetServicesFromProviderID(u *models.UserModel, providerId string) ([]models.ServiceModel, error) {
 	var services []models.ServiceModel
-	resp, err := internals.GetWithToken(fmt.Sprintf("/api/collections/services/records?sort=-created&max=1000&filter=(provider='%v')", providerId), u.Token)
+	resp, err := internals.GetWithToken(fmt.Sprintf("/api/collections/services/records?sort=-created&perPage=2000&filter=(provider='%v')", providerId), u.Token)
 
 	if err != nil {
 		return services, err

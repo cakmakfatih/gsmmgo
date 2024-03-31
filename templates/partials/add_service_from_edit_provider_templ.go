@@ -33,7 +33,7 @@ func AddServiceFromEditProvider(service models.ServiceModel) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-swap-oob=\"afterbegin:#addServiceFromExistingAddedProviderForm\"><div class=\"flex service\"><input type=\"hidden\" name=\"editProviderID\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-swap-oob=\"afterbegin:#addServiceFromExistingAddedProviderForm\"><form class=\"flex service\" hx-disinherit=\"*\"><input type=\"hidden\" name=\"editProviderID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -100,20 +100,20 @@ func AddServiceFromEditProvider(service models.ServiceModel) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-1\"></div><button type=\"button\" hx-patch=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-1\"></div><button type=\"button\" hx-swap=\"none\" hx-patch=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(`/partials/providers/services/` + service.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `partials\add_service_from_edit_provider.templ`, Line: 22, Col: 88}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `partials\add_service_from_edit_provider.templ`, Line: 22, Col: 103}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click=\"$nextTick(() =&gt; { $dispatch(&#39;toggle-notification&#39;); setTimeout(() =&gt; { $dispatch(&#39;toggle-notification&#39;); }, 3500); })\" class=\"mr-3 text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3\">Edit</button></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click=\"$nextTick(() =&gt; { $dispatch(&#39;toggle-notification&#39;); setTimeout(() =&gt; { $dispatch(&#39;toggle-notification&#39;); }, 3500); })\" class=\"mr-3 text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3\">Edit</button></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

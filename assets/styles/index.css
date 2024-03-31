@@ -977,12 +977,12 @@ div.tbody > .tr > .filler {
   max-width: 9rem;
 }
 
-.max-w-\[95vw\] {
-  max-width: 95vw;
-}
-
 .max-w-\[50\%\] {
   max-width: 50%;
+}
+
+.max-w-\[95vw\] {
+  max-width: 95vw;
 }
 
 .flex-1 {

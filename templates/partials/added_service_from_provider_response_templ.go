@@ -59,14 +59,14 @@ func AddedServiceFromProviderResponse(service models.ServiceModel) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Service ID\" @click=\"$el.select()\"> <input name=\"editServiceName\" class=\"p-2 w-36 mr-2 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Service ID\" @click=\"$el.select()\"> <input name=\"editServiceName\" class=\"text-xs flex-1 p-2 mr-2 max-w-[50%] text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(service.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `partials\added_service_from_provider_response.templ`, Line: 15, Col: 174}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `partials\added_service_from_provider_response.templ`, Line: 15, Col: 187}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -76,13 +76,13 @@ func AddedServiceFromProviderResponse(service models.ServiceModel) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if service.HasRefill {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"NoRefill\" @click=\"$el.select()\">")
+		if !service.HasRefill {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"NoRefill\" @click=\"$el.select()\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

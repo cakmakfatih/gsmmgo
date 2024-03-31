@@ -12,11 +12,11 @@ templ AddServiceFromEditProvider(service models.ServiceModel) {
         <div class="flex service">
             <input type="hidden" name="editProviderID" value={service.Provider} />
             <input name="editServiceID" class="p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600" value={fmt.Sprint(service.ServiceID)} placeholder="Service ID" @click="$el.select()" />
-            <input name="editServiceName" class="p-2 w-36 mr-2 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600" value={service.Name} placeholder="Service Name" @click="$el.select()" />
-            if service.HasRefill {
-                <input type="text" class="p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600" name="editRefillDuration" value="NoRefill" @click="$el.select()" />
+            <input name="editServiceName" class="text-xs flex-1 p-2 mr-2 max-w-[50%] text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600" value={service.Name} placeholder="Service Name" @click="$el.select()" />
+            if !service.HasRefill {
+                <input type="text" class="p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600" name="editRefillDuration" value="NoRefill" @click="$el.select()" />
             } else {
-                <input type="text" class="p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600" name="editRefillDuration" value={fmt.Sprint(service.RefillDuration)} @click="$el.select()" />
+                <input type="text" class="p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600" name="editRefillDuration" value={fmt.Sprint(service.RefillDuration)} @click="$el.select()" />
             }
             <div class="flex-1"></div>
             <button type="button" hx-patch={`/partials/providers/services/` + service.ID} @click="$nextTick(() => { $dispatch('toggle-notification'); setTimeout(() => { $dispatch('toggle-notification'); }, 3500); })" class="mr-3 text-gray-600 bg-white border border-gray-500 items-center p-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-sm px-3">Edit</button>

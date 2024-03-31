@@ -136,14 +136,14 @@ func AddServiceFromProviderForm(provider models.ProviderModel, id string, servic
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Service ID\" @click=\"$el.select()\"> <input name=\"editServiceName\" class=\"p-2 w-36 mr-2 max-w-36 text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600\" value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Service ID\" @click=\"$el.select()\"> <input name=\"editServiceName\" class=\"text-xs flex-1 p-2 mr-2 max-w-[50%] text-ellipsis text-sm border-b outline-none border-gray-300 focus:border-gray-600\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(service.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 34, Col: 178}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 34, Col: 191}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -153,13 +153,13 @@ func AddServiceFromProviderForm(provider models.ProviderModel, id string, servic
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if service.HasRefill {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"NoRefill\" @click=\"$el.select()\">")
+			if !service.HasRefill {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"NoRefill\" @click=\"$el.select()\"> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-36 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"text\" class=\"p-2 w-28 max-w-28 text-sm border-b outline-none border-gray-300 focus:border-gray-600\" name=\"editRefillDuration\" value=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -172,19 +172,19 @@ func AddServiceFromProviderForm(provider models.ProviderModel, id string, servic
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click=\"$el.select()\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click=\"$el.select()\"> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-1\"></div><button type=\"button\" hx-patch=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" hx-patch=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(`/partials/providers/services/` + service.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 41, Col: 92}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components\add_service_from_provider_form.templ`, Line: 40, Col: 92}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

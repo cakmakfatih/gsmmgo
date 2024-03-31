@@ -66,7 +66,7 @@ func (cr *PartialsController) updateServiceFromProvider(c echo.Context) error {
 	serviceModel.Name = serviceName
 	serviceModel.Provider = providerID
 
-	if refillDuration == "NoRefill" || refillDuration == "0" {
+	if refillDuration == "NoRefill" || refillDuration == "0" || refillDuration == "" {
 		serviceModel.RefillDuration = 0
 		serviceModel.HasRefill = false
 	} else {

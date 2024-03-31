@@ -1,0 +1,10 @@
+package templates
+
+import (
+    "echochat/models"
+    components "echochat/templates/components"
+)
+
+templ EditProviderResponse(provider models.ProviderModel, services []models.ServiceModel) {
+    @components.ProviderFormBody(provider, "editProviderForm", services)
+}

@@ -3,3 +3,5 @@ tmp/*
 !tmp/.gitkeep
 cert/*
 !cert/.gitkeep
+data/*.json
+data/*.txt

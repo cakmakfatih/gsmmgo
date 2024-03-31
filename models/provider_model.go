@@ -17,3 +17,11 @@ func (p *ProviderModel) SetMethodDataReadableFromJsonString(methodData map[strin
 		p.MethodDataReadable += methodData["support_username"].(string) + ":" + methodData["support_password"].(string)
 	}
 }
+
+func (p *ProviderModel) SetMethodDataReadableFromSelf() {
+	if p.Method == "telegram" {
+		p.MethodDataReadable = p.MethodData["telegram_chat_id"]
+	} else if p.Method == "web" {
+		p.MethodDataReadable += p.MethodData["support_username"] + ":" + p.MethodData["support_password"]
+	}
+}

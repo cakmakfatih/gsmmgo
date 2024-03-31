@@ -1,6 +1,7 @@
 package models
 
 type ServiceModel struct {
+	ID             string `json:"id"`
 	Provider       string `json:"provider"`
 	ServiceID      int    `json:"service_id"`
 	Name           string `json:"name"`

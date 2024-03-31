@@ -2,39 +2,15 @@ package templates
 
 import "echochat/models"
 
-templ AddProviderForm(panels []models.PanelModel) {
-    <form hx-post="/partials/providers" onkeydown="return event.key != 'Enter';" hx-swap="none" class="min-h-0 flex flex-1 flex-col px-6 py-4" x-data="{ method: 'telegram', panel: '', form: $el }">
+templ AddProviderForm(panels []models.PanelModel, formID string, services []models.ServiceModel) {
+    <form onkeydown="return event.key != 'Enter';" hx-swap="none" class="min-h-0 flex flex-1 flex-col px-6 py-4 min-h-0" x-data="{ panel: '', form: $el }">
         <label for="panel" class="font-semibold px-3 py-1 text-sm">Panel (*)</label>
         <select x-model="panel" id="panel" name="panel" class="transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none">
             for _, panel := range panels {
                 <option value={panel.ID}>{ panel.LoginURL }</option>
             }
         </select>
-        <label for="inpUrl" class="mt-2 font-semibold px-3 py-1 text-sm">URL (*)</label>
-        <input autocomplete="off" id="inpUrl" name="url" class="transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="https://provider.com" required/>
-        <label for="method" class="mt-2 font-semibold px-3 py-1 text-sm">Method (*)</label>
-        <select x-model="method" id="method" name="method" class="transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none">
-            <option value="telegram">Telegram</option>
-            <option value="web">Web</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="manual">Manual</option>
-        </select>
-        <div class="flex flex-col mt-2 method" x-show="method === 'web'">
-            <label for="supportUsername" class="font-semibold px-3 py-1 text-sm">Support Username (*)</label>
-            <input :required="method === 'web'" autocomplete="off" id="supportUsername" name="supportUsername" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="Username" />
-            <label for="supportPassword" class="mt-2 font-semibold px-3 py-1 text-sm">Support Password (*)</label>
-            <input :required="method === 'web'" autocomplete="off" id="supportPassword" name="supportPassword" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="********" />
-        </div>
-        <div class="flex flex-col mt-2 method" x-show="method === 'telegram'">
-            <label for="telegramChatId" class="mt-2 font-semibold px-3 py-1 text-sm">Telegram Chat ID (*)</label>
-            <input :required="method === 'telegram'" autocomplete="off" id="telegramChatId" name="telegramChatId" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="-104xxxx" />
-        </div>
-        <label for="alias" class="mt-2 font-semibold px-3 py-1 text-sm">Alias</label>
-        <input autocomplete="off" id="alias" name="alias" class="transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="Provider Name"/>
-        <div id="addServiceFromProviderForm" class="flex flex-col flex-1 py-2 px-3 mt-2 mb-2 min-h-0"></div>
-        <hr class="py-2" />
-        <button type="submit" @click="$nextTick(() => { $dispatch('toggle-notification'); setTimeout(() => { $dispatch('toggle-notification'); }, 3500); })" class="mx-3 text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150">
-            <span>Save</span>
-        </button>
+        @ProviderFormBody(models.ProviderModel{}, formID, services)
+        { children... }
     </form>
 }

@@ -33,11 +33,15 @@ func AddedProviderResponse(provider models.ProviderModel) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.AddServiceFromProviderForm(provider).Render(ctx, templ_7745c5c3_Buffer)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"addServiceFromProviderForm\" hx-swap-oob=\"innerHTML:#addServiceFromProviderForm\" class=\"flex flex-col flex-1 py-2 px-3 mt-2 mb-2 min-h-0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-swap-oob=\"afterbegin:#mainTableBody\">")
+		templ_7745c5c3_Err = components.AddServiceFromProviderForm(provider, "addServiceFromNewlyAddedProviderForm", []models.ServiceModel{}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div hx-swap-oob=\"afterbegin:#mainTableBody\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

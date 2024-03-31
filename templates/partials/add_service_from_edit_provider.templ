@@ -1,14 +1,14 @@
 package templates
 
 import (
+    "fmt"
     "echochat/models"
     components "echochat/templates/components"
-    "fmt"
 )
 
-templ AddedServiceFromProviderResponse(service models.ServiceModel) {
+templ AddServiceFromEditProvider(service models.ServiceModel) {
     @components.PageNotification("Successfully added a new service!")
-    <div hx-swap-oob="afterbegin:#addServiceFromNewlyAddedProviderForm">
+    <div hx-swap-oob="afterbegin:#addServiceFromExistingAddedProviderForm">
         <div class="flex service">
             <input type="hidden" name="editProviderID" value={service.Provider} />
             <input name="editServiceID" class="p-2 w-28 max-w-28 mr-2 text-sm border-b outline-none border-gray-300 focus:border-gray-600" value={fmt.Sprint(service.ServiceID)} placeholder="Service ID" @click="$el.select()" />

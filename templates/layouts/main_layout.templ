@@ -17,7 +17,7 @@ templ MainLayout(title string) {
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		</head>
 		<body class="subpixel-antialiased flex flex-col items-stretch text-gray-600 max-h-dvh h-dvh overflow-hidden min-h-0">
-			<div class="hidden w-36 w-52 w-12 w-8 w-28 w-56 opacity-100 flex-row mx-3 mb-3"></div>
+			<div class="hidden w-36 w-52 w-12 w-8 w-28 w-56 opacity-100 flex-row mx-3 mb-3 mr-3"></div>
 			<div id="notifications" x-data="{ open: false }" 
 			x-cloak @toggle-notification.window="open = !open; callback = true;" 
 			x-show="open" 
@@ -25,19 +25,20 @@ templ MainLayout(title string) {
 				<span></span>
 			</div>
 			{ children... }
-			<div id="markedForDeletion" x-cloak x-data="{ idsToDelete: [], typeToDelete: 'provider' }" 
+			<form id="markedForDeletion" x-cloak x-data="{ idsToDelete: [], deleteHref: 'providers' }" 
 				x-show="idsToDelete.length > 0"
-				@change-delete-mark-type="typeToDelete = $event.detail; idsToDelete = []; callback = true;"
+				@change-delete-mark-type="deleteHref = $event.detail; idsToDelete = []; callback = true;"
 				@toggle-mark-for-delete.window="if ($event.detail.isChecked && idsToDelete.indexOf($event.detail.id) === -1) { idsToDelete = [...idsToDelete, $event.detail.id] } else if (!$event.detail.isChecked && idsToDelete.indexOf($event.detail.id) !== -1) { idsToDelete = idsToDelete.filter(i => i !== $event.detail.id) } callback = true;" 
 				class="absolute itemx-center shadow-lg border px-4 py-2 flex self-center rounded-sm z-5 bottom-4 justify-self-end text-wider bg-blue-400 text-white"
 				>
 				<span x-text="idsToDelete.length" class="self-center"></span>
 				<span class="self-center">&nbsp;item(s) are selected</span>
 				<span class="flex-1"></span>
-				<button @click="idsToDelete = []" class="bg-red-500 hover:bg-red-600 active:bg-red-700 transition-colors duration-100 cursor-pointer px-4 py-2 ml-4 font-semibold rounded-md">
+				<input type="hidden" name="ids" :value="idsToDelete" />
+				<button :hx-delete="'/partials/' + deleteHref" hx-params="*" type="button" class="bg-red-500 hover:bg-red-600 active:bg-red-700 transition-colors duration-100 cursor-pointer px-4 py-2 ml-4 font-semibold rounded-md">
 					DELETE
 				</button>
-			</div>
+			</form>
 		</body>
 	</html>
 }

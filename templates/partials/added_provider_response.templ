@@ -8,7 +8,9 @@ import (
 
 templ AddedProviderResponse(provider models.ProviderModel) {
     @components.PageNotification("Successfully added a new provider!")
-    @components.AddServiceFromProviderForm(provider)
+    <div id="addServiceFromProviderForm" hx-swap-oob="innerHTML:#addServiceFromProviderForm" class="flex flex-col flex-1 py-2 px-3 mt-2 mb-2 min-h-0">
+        @components.AddServiceFromProviderForm(provider, "addServiceFromNewlyAddedProviderForm", []models.ServiceModel{})
+    </div>
     <div hx-swap-oob="afterbegin:#mainTableBody">
         @components.TableRow(&utils.TableRowData{
             SizeClasses: []string{

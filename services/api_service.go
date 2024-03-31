@@ -26,7 +26,7 @@ func InitAPI() {
 
 func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, error) {
 	var providers []models.ProviderModel
-	resp, err := internals.GetWithToken("/api/collections/providers/records?sort=-created", u.Token)
+	resp, err := internals.GetWithToken("/api/collections/providers/records?sort=-created&max=2000", u.Token)
 
 	if err != nil {
 		return providers, err
@@ -73,8 +73,102 @@ func (s *apiService) GetProviders(u *models.UserModel) ([]models.ProviderModel, 
 	return providers, nil
 }
 
-func (s *apiService) GetProvider(u *models.UserModel, id string) error {
-	return nil
+func (s *apiService) GetServicesFromProviderID(u *models.UserModel, providerId string) ([]models.ServiceModel, error) {
+	var services []models.ServiceModel
+	resp, err := internals.GetWithToken(fmt.Sprintf("/api/collections/services/records?sort=-created&max=1000&filter=(provider='%v')", providerId), u.Token)
+
+	if err != nil {
+		return services, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return services, errors.New("failed response status")
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return services, err
+	}
+
+	var servicesResponse entities.PbListResponseEntity
+
+	if err := json.Unmarshal(body, &servicesResponse); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return services, err
+	}
+
+	for _, item := range servicesResponse.Items {
+		service := models.ServiceModel{
+			ID:             item["id"].(string),
+			Name:           item["name"].(string),
+			ServiceID:      int(item["service_id"].(float64)),
+			HasRefill:      item["has_refill"].(bool),
+			RefillDuration: int(item["refill_duration"].(float64)),
+		}
+
+		services = append(services, service)
+	}
+
+	return services, nil
+}
+
+func (s *apiService) UpdateService(u *models.UserModel, service models.ServiceModel) (models.ServiceModel, error) {
+	var result models.ServiceModel
+	serviceJSON, err := json.Marshal(service)
+
+	if err != nil {
+		return result, err
+	}
+
+	resp, err := internals.NewRequestWithToken(http.MethodPatch, fmt.Sprintf("/api/collections/services/records/%v", service.ID), bytes.NewBuffer(serviceJSON), u.Token)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return result, err
+	}
+
+	if err := json.Unmarshal(body, &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+
+		return result, err
+	}
+
+	return result, nil
+}
+
+func (s *apiService) GetProvider(u *models.UserModel, providerId string) (models.ProviderModel, error) {
+	var result models.ProviderModel
+
+	resp, err := internals.GetWithToken(fmt.Sprintf("/api/collections/providers/records/%v", providerId), u.Token)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+
+		return result, err
+	}
+
+	if err := json.Unmarshal(body, &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+
+		return result, err
+	}
+
+	return result, nil
 }
 
 func (s *apiService) CreateService(u *models.UserModel, service models.ServiceModel) (models.ServiceModel, error) {
@@ -133,6 +227,8 @@ func (s *apiService) CreateProvider(u *models.UserModel, provider models.Provide
 
 		return result, err
 	}
+
+	result.SetMethodDataReadableFromSelf()
 
 	return result, nil
 }

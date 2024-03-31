@@ -3,16 +3,18 @@ package main
 import (
 	"crypto/tls"
 	"echochat/controllers"
+	"echochat/data"
 	"echochat/internals"
 	"echochat/models"
 	"echochat/services"
 	"encoding/gob"
 	"fmt"
-	"golang.org/x/crypto/acme"
-	"golang.org/x/crypto/acme/autocert"
 	"net/http"
 	"os"
 	"strings"
+
+	"golang.org/x/crypto/acme"
+	"golang.org/x/crypto/acme/autocert"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -33,6 +35,12 @@ func staticCache(next echo.HandlerFunc) echo.HandlerFunc {
 func main() {
 	internals.InitConfig()
 	services.InitAPI()
+
+	if len(os.Args) > 1 && os.Args[1] == "migrate" {
+		data.MigratePerfectPanelServices()
+
+		return
+	}
 
 	e := echo.New()
 

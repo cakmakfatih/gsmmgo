@@ -1,0 +1,82 @@
+package templates
+
+import (
+    "echochat/models"
+    "fmt"
+)
+
+func getMethod(provider models.ProviderModel) string {
+    if provider.Method == "" {
+        return "'telegram'"
+    }
+
+    return fmt.Sprintf("'%v'", provider.Method)
+}
+
+func getFormBodyID(provider models.ProviderModel) string {
+    if provider.ID == "" {
+        return "providerAddForm"
+    }
+
+    return "providerEditForm"
+}
+
+func getServicesID(provider models.ProviderModel) string {
+    if provider.ID == "" {
+        return "addServiceFromProviderForm"
+    }
+
+    return "editServiceFromProviderForm"
+}
+
+func getServiceFormID(provider models.ProviderModel) string {
+    if provider.ID == "" {
+        return "addServiceFromNewlyAddedProviderForm"
+    }
+
+    return "addServiceFromExistingAddedProviderForm"
+}
+
+templ ProviderFormBody(provider models.ProviderModel, formID string, services []models.ServiceModel) {
+    <div id={formID} class="flex flex-col self-stretch flex-1 min-h-0" x-data={`{ method: ` + getMethod(provider) + ` }`}>
+        <label for="inpUrl" class="mt-2 font-semibold px-3 py-1 text-sm">URL (*)</label>
+        <input autocomplete="off" id="inpUrl" name="url" value={provider.URL} class="transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="https://provider.com" required/>
+        <label for="method" class="mt-2 font-semibold px-3 py-1 text-sm">Method (*)</label>
+        <select x-model="method" id="method" name="method" class="transition-colors block px-2 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none">
+            <option value="telegram">Telegram</option>
+            <option value="web">Web</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="manual">Manual</option>
+        </select>
+        <div class="flex flex-col mt-2 method" x-show="method === 'web'">
+            if provider.Method == "web" {
+                <label for="supportUsername" class="font-semibold px-3 py-1 text-sm">Support Username (*)</label>
+                <input value={provider.MethodData["support_username"]} :required="method === 'web'" autocomplete="off" id="supportUsername" name="supportUsername" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="Username" />
+                <label for="supportPassword" class="mt-2 font-semibold px-3 py-1 text-sm">Support Password (*)</label>
+                <input value={provider.MethodData["support_password"]} :required="method === 'web'" autocomplete="off" id="supportPassword" name="supportPassword" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="********" />
+            } else {
+                <label for="supportUsername" class="font-semibold px-3 py-1 text-sm">Support Username (*)</label>
+                <input :required="method === 'web'" autocomplete="off" id="supportUsername" name="supportUsername" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="Username" />
+                <label for="supportPassword" class="mt-2 font-semibold px-3 py-1 text-sm">Support Password (*)</label>
+                <input :required="method === 'web'" autocomplete="off" id="supportPassword" name="supportPassword" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="********" />
+            }
+        </div>
+        <div class="flex flex-col mt-2 method" x-show="method === 'telegram'">
+            if provider.Method == "telegram" {
+                <label for="telegramChatId" class="mt-2 font-semibold px-3 py-1 text-sm">Telegram Chat ID (*)</label>
+                <input value={provider.MethodData["telegram_chat_id"]} :required="method === 'telegram'" autocomplete="off" id="telegramChatId" name="telegramChatId" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="-104xxxx" />
+            } else {
+                <label for="telegramChatId" class="mt-2 font-semibold px-3 py-1 text-sm">Telegram Chat ID (*)</label>
+                <input :required="method === 'telegram'" autocomplete="off" id="telegramChatId" name="telegramChatId" class="webInp transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="-104xxxx" />
+            }
+        </div>
+        <label for="alias" class="mt-2 font-semibold px-3 py-1 text-sm">Alias</label>
+        <input autocomplete="off" value={provider.Alias} id="alias" name="alias" class="transition-colors block p-2 ps-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:bg-white text-sm focus:border-gray-500 outline-none" type="text" placeholder="Provider Name"/>
+        <div id={getServicesID(provider)} class="flex flex-col flex-1 py-2 px-3 mt-2 mb-2 min-h-0">
+            if provider.ID != "" {
+                @AddServiceFromProviderForm(provider, getServiceFormID(provider), services)
+            }
+        </div>
+        <hr class="py-2" />
+    </div>
+}

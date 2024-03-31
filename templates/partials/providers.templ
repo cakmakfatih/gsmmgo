@@ -17,7 +17,7 @@ templ Providers(panels []models.PanelModel, tableData utils.TableData) {
                 <span>New Provider</span>
             }
         }
-        <div id="overlay" x-cloak x-data="{ open: false }" x-show="open" @click="open = false; $dispatch('toggle-add-record');" @toggle-modal.window="open = !open; callback = true;" class="bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5"></div>
+        <div id="overlay" x-cloak x-data="{ open: false, opennedWindowEvent: 'toggle-add-record' }" x-show="open" @click="open = false; $dispatch(opennedWindowEvent);" @toggle-modal.window="open = !open; opennedWindowEvent = $event.detail; callback = true;" class="bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5"></div>
         <div id="addRecordModal" x-cloak x-data="{ open: false }" @toggle-add-record.window="open = !open; callback = true;" :class="open ? 'add-record w-35p' : 'add-record w-0'">
             <header class="flex items-center text-xl font-semibold px-6 py-4" @click="$dispatch('toggle-modal')">
                 <button @click="open = false" class="p-2 rounded-lg hover:bg-gray-200 active:bg-gray-300 duration-150">
@@ -28,7 +28,27 @@ templ Providers(panels []models.PanelModel, tableData utils.TableData) {
                 <span class="ml-3">New Provider</span>
             </header>
             <hr />
-            @components.AddProviderForm(panels)
+            @components.AddProviderForm(panels, "addProviderForm", []models.ServiceModel{}) {
+                <button hx-post="/partials/providers" type="submit" @click="$nextTick(() => { $dispatch('toggle-notification'); setTimeout(() => { $dispatch('toggle-notification'); }, 3500); })" class="mx-3 text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150">
+                    <span>Save</span>
+                </button>
+            }
+        </div>
+        <div id="editRecordModal" x-cloak x-data="{ open: false, id: '' }" @set-edit-id.window="id = $event.detail; callback = true;" @toggle-edit-record.window="open = !open; callback = true;" :class="open ? 'add-record w-35p' : 'add-record w-0'">
+            <header class="flex items-center text-xl font-semibold px-6 py-4" @click="$dispatch('toggle-modal')">
+                <button @click="open = false" class="p-2 rounded-lg hover:bg-gray-200 active:bg-gray-300 duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                    </svg>
+                </button>
+                <span class="ml-3">Edit Provider</span>
+            </header>
+            <hr />
+            @components.AddProviderForm(panels, "editProviderForm", []models.ServiceModel{}) {
+                <button type="submit" :hx-patch="'/partials/providers/' + id" @click="$nextTick(() => { $dispatch('toggle-notification'); setTimeout(() => { $dispatch('toggle-notification'); }, 3500); })" class="mx-3 text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150">
+                    <span>Save</span>
+                </button>
+            }
         </div>
         <section class="flex flex-col flex-1 bg-white min-h-0">
             @components.Table(tableData)

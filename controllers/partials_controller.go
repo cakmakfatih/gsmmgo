@@ -30,7 +30,85 @@ func (cr *PartialsController) register() {
 
 	providersRG.GET("", cr.getProviders, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
 	providersRG.POST("", cr.createProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+	providersRG.DELETE("", cr.deleteProviders, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
 	providersRG.POST("/services", cr.createServiceFromProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+	providersRG.GET("/:id", cr.getProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+	providersRG.PATCH("/services/:id", cr.updateServiceFromProvider, middlewares.AuthGuardMiddleware, middlewares.RedirectIfNotAuthenticated)
+}
+
+func (cr *PartialsController) deleteProviders(c echo.Context) error {
+	return c.NoContent(http.StatusBadRequest)
+}
+
+func (cr *PartialsController) updateServiceFromProvider(c echo.Context) error {
+	user := c.Get("user").(*models.UserModel)
+
+	id := c.Param("id")
+	serviceID := c.FormValue("editServiceID")
+	serviceName := c.FormValue("editServiceName")
+	refillDuration := c.FormValue("editRefillDuration")
+	providerID := c.FormValue("editProviderID")
+
+	if id == "" || serviceID == "" || serviceName == "" {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	serviceIDInt, err := strconv.Atoi(serviceID)
+
+	if err != nil {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	var serviceModel models.ServiceModel
+
+	serviceModel.ID = id
+	serviceModel.ServiceID = serviceIDInt
+	serviceModel.Name = serviceName
+	serviceModel.Provider = providerID
+
+	if refillDuration == "NoRefill" || refillDuration == "0" {
+		serviceModel.RefillDuration = 0
+		serviceModel.HasRefill = false
+	} else {
+		refillDurationInt, err := strconv.Atoi(refillDuration)
+
+		if err != nil {
+			return c.NoContent(http.StatusBadRequest)
+		}
+
+		serviceModel.HasRefill = true
+		serviceModel.RefillDuration = refillDurationInt
+	}
+
+	_, err = services.ApiService.UpdateService(user, serviceModel)
+
+	if err != nil {
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	return internals.RenderTempl(c, http.StatusOK, partials.EditedServiceResponse())
+}
+
+func (cr *PartialsController) getProvider(c echo.Context) error {
+	user := c.Get("user").(*models.UserModel)
+
+	provider, err := services.ApiService.GetProvider(user, c.Param("id"))
+
+	if err != nil {
+		log.Println(err)
+
+		return nil
+	}
+
+	services, err := services.ApiService.GetServicesFromProviderID(user, provider.ID)
+
+	if err != nil {
+		log.Println(err)
+
+		return nil
+	}
+
+	return internals.RenderTempl(c, http.StatusOK, partials.EditProviderResponse(provider, services))
 }
 
 func (cr *PartialsController) getProviders(c echo.Context) error {
@@ -144,6 +222,10 @@ func (cr *PartialsController) createServiceFromProvider(c echo.Context) error {
 
 	if err != nil {
 		return c.NoContent(http.StatusBadRequest)
+	}
+
+	if c.FormValue("from") == "edit" {
+		return internals.RenderTempl(c, http.StatusCreated, partials.AddServiceFromEditProvider(addedService))
 	}
 
 	return internals.RenderTempl(c, http.StatusCreated, partials.AddedServiceFromProviderResponse(addedService))

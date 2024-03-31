@@ -70,11 +70,49 @@ func Providers(panels []models.PanelModel, tableData utils.TableData) templ.Comp
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div id=\"overlay\" x-cloak x-data=\"{ open: false }\" x-show=\"open\" @click=\"open = false; $dispatch(&#39;toggle-add-record&#39;);\" @toggle-modal.window=\"open = !open; callback = true;\" class=\"bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5\"></div><div id=\"addRecordModal\" x-cloak x-data=\"{ open: false }\" @toggle-add-record.window=\"open = !open; callback = true;\" :class=\"open ? &#39;add-record w-35p&#39; : &#39;add-record w-0&#39;\"><header class=\"flex items-center text-xl font-semibold px-6 py-4\" @click=\"$dispatch(&#39;toggle-modal&#39;)\"><button @click=\"open = false\" class=\"p-2 rounded-lg hover:bg-gray-200 active:bg-gray-300 duration-150\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"w-6 h-6\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\"></path></svg></button> <span class=\"ml-3\">New Provider</span></header><hr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div id=\"overlay\" x-cloak x-data=\"{ open: false, opennedWindowEvent: &#39;toggle-add-record&#39; }\" x-show=\"open\" @click=\"open = false; $dispatch(opennedWindowEvent);\" @toggle-modal.window=\"open = !open; opennedWindowEvent = $event.detail; callback = true;\" class=\"bg-black/[0.34] absolute left-0 top-0 h-full w-full z-5\"></div><div id=\"addRecordModal\" x-cloak x-data=\"{ open: false }\" @toggle-add-record.window=\"open = !open; callback = true;\" :class=\"open ? &#39;add-record w-35p&#39; : &#39;add-record w-0&#39;\"><header class=\"flex items-center text-xl font-semibold px-6 py-4\" @click=\"$dispatch(&#39;toggle-modal&#39;)\"><button @click=\"open = false\" class=\"p-2 rounded-lg hover:bg-gray-200 active:bg-gray-300 duration-150\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"w-6 h-6\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\"></path></svg></button> <span class=\"ml-3\">New Provider</span></header><hr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.AddProviderForm(panels).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Var5 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+				if !templ_7745c5c3_IsBuffer {
+					templ_7745c5c3_Buffer = templ.GetBuffer()
+					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-post=\"/partials/providers\" type=\"submit\" @click=\"$nextTick(() =&gt; { $dispatch(&#39;toggle-notification&#39;); setTimeout(() =&gt; { $dispatch(&#39;toggle-notification&#39;); }, 3500); })\" class=\"mx-3 text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\"><span>Save</span></button>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				if !templ_7745c5c3_IsBuffer {
+					_, templ_7745c5c3_Err = io.Copy(templ_7745c5c3_W, templ_7745c5c3_Buffer)
+				}
+				return templ_7745c5c3_Err
+			})
+			templ_7745c5c3_Err = components.AddProviderForm(panels, "addProviderForm", []models.ServiceModel{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div id=\"editRecordModal\" x-cloak x-data=\"{ open: false, id: &#39;&#39; }\" @set-edit-id.window=\"id = $event.detail; callback = true;\" @toggle-edit-record.window=\"open = !open; callback = true;\" :class=\"open ? &#39;add-record w-35p&#39; : &#39;add-record w-0&#39;\"><header class=\"flex items-center text-xl font-semibold px-6 py-4\" @click=\"$dispatch(&#39;toggle-modal&#39;)\"><button @click=\"open = false\" class=\"p-2 rounded-lg hover:bg-gray-200 active:bg-gray-300 duration-150\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"w-6 h-6\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18\"></path></svg></button> <span class=\"ml-3\">Edit Provider</span></header><hr>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var6 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+				if !templ_7745c5c3_IsBuffer {
+					templ_7745c5c3_Buffer = templ.GetBuffer()
+					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"submit\" :hx-patch=\"&#39;/partials/providers/&#39; + id\" @click=\"$nextTick(() =&gt; { $dispatch(&#39;toggle-notification&#39;); setTimeout(() =&gt; { $dispatch(&#39;toggle-notification&#39;); }, 3500); })\" class=\"mx-3 text-gray-600 bg-white border border-gray-500 items-center px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150\"><span>Save</span></button>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				if !templ_7745c5c3_IsBuffer {
+					_, templ_7745c5c3_Err = io.Copy(templ_7745c5c3_W, templ_7745c5c3_Buffer)
+				}
+				return templ_7745c5c3_Err
+			})
+			templ_7745c5c3_Err = components.AddProviderForm(panels, "editProviderForm", []models.ServiceModel{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

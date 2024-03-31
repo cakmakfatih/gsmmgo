@@ -3,7 +3,7 @@ package templates
 import "echochat/utils"
 
 templ TableRow(rowData *utils.TableRowData) {
-    <div class="tr">
+    <div class="tr" hx-target="#editProviderForm" hx-swap="outerHTML" hx-get={`/partials/providers/` + rowData.Values[0]} @click="$dispatch('toggle-modal', 'toggle-edit-record'); $dispatch('toggle-edit-record')">
         <label class="td" for={`checkbox-` + rowData.Values[0]}>
             <input @change={`$dispatch('toggle-mark-for-delete', { id: ` + `'` + rowData.Values[0] + `'` + `, isChecked: $event.target.checked })`} id={`checkbox-` + rowData.Values[0]} name={`checkbox-` + rowData.Values[0]} type="checkbox" />
         </label>

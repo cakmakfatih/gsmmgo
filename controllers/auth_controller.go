@@ -46,7 +46,7 @@ func signOutHandler(c echo.Context) error {
 
 	c.Response().Header().Set("HX-Refresh", "true")
 
-	return nil
+	return c.NoContent(http.StatusOK)
 }
 
 func signInHandler(c echo.Context) error {
@@ -100,5 +100,5 @@ func signInHandler(c echo.Context) error {
 
 	c.Response().Header().Set("HX-Refresh", "true")
 
-	return nil
+	return c.NoContent(http.StatusOK)
 }
